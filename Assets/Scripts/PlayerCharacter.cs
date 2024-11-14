@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Linq;
 
 public class PlayerCharacter : MonoBehaviour
 {
@@ -32,6 +33,23 @@ public class PlayerCharacter : MonoBehaviour
     [Header("Raycasting")]
     public LayerMask enviromentLayer = 1;
 
+    [Header("Interactor")]
+    [SerializeField] private float interactionRadius = 1.5f;
+    //public Vector3 offset = Vector3.zero;
+    [SerializeField] private Vector3 offset = Vector3.up;
+
+    [SerializeField] private bool lookAtTarget = true;
+    public bool CanLookAtTarget { get => lookAtTarget; set => lookAtTarget = value; }
+    float lookWeight = 0;
+    Vector3 target;
+    [SerializeField] private float lookSmoothRate = 5f;
+    float maxDot = 0.2f;
+    [SerializeField] private AnimationCurve lookCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+    public LayerMask interactableLayers = 8<<1;
+
+    [Header("Current Nearby Interactables")]
+    [SerializeField] private List<Interactable> interactionQueue = new List<Interactable>();
+
     float upOffset = 0.5f;
 
     #region instance variables
@@ -55,6 +73,111 @@ public class PlayerCharacter : MonoBehaviour
 
     void Start()
     {
+    }
+
+
+    private void OnEnable()
+    {
+        GetAct("Interact").performed += _ => Interact();
+    }
+
+    private void OnDisable()
+    {
+        if (playerInput != null)
+        {
+            GetAct("Interact").performed -= _ => Interact();
+        }
+    }
+
+    /// <summary>
+    /// Call this to update the interaction Queue.
+    /// </summary>
+    public void CheckForInteractables()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position + offset, interactionRadius, interactableLayers);
+        interactionQueue.Clear();
+        foreach (Collider collider in colliders)
+        {
+            if (collider.TryGetComponent(out Interactable interactable) && interactable.IsActive)
+            {
+                if (interactable.transform != transform)
+                {
+                    interactionQueue.Add(interactable);
+                }
+                //interactable.show = true;
+            }
+        }
+        interactionQueue = interactionQueue.OrderBy(i => Vector3.Distance(this.transform.position, i.transform.position)).ToList();//using Linq
+    }
+    /// <summary>
+    /// Call this to interact with the nearest object.
+    /// </summary>
+    public void Interact()
+    {
+        CheckForInteractables();
+
+        if (interactionQueue.Count > 0)
+        {
+            AdjustThenInteract();
+        }
+    }
+
+    void AdjustThenInteract()
+    {
+        Vector3 dir = (interactionQueue[0].transform.position - transform.position);
+        Quaternion newRot = Quaternion.LookRotation(new Vector3(dir.x, 0, dir.z));//Or else the player will be laying down or something random.
+        transform.rotation = newRot;
+        interactionQueue[0].Interact(this);
+
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(offset + transform.position, interactionRadius);
+    }
+    
+    private void OnAnimatorIK(int layerIndex)
+    {
+        CheckForInteractables();
+        bool anyToLookAt = false;
+        for (int i = interactionQueue.Count - 1; i >= 0; i--)
+        {
+            if (interactionQueue[i].LookAt)
+            {
+                target = interactionQueue[i].transform.position;
+                anyToLookAt = true;
+            }
+        }
+
+        if (lookAtTarget && (anyToLookAt))
+        {
+            Vector3 head = Animator.GetBoneTransform(HumanBodyBones.Head).position;
+            Vector3 directionOfInteractor = transform.forward;
+            Vector3 directionFromTargetToInteractor = transform.position - target;
+            bool facingTarget = Vector3.Dot(directionOfInteractor.normalized, directionFromTargetToInteractor.normalized) < maxDot;
+            Debug.DrawRay(head, target - head, facingTarget ? Color.green : Color.magenta);
+            if (facingTarget)
+            {
+                Animator.SetLookAtPosition(target);
+                if (lookWeight < 1)
+                    lookWeight += lookSmoothRate * Time.deltaTime;
+
+            }
+            else
+            {
+                if (lookWeight > 0)
+                    lookWeight -= lookSmoothRate * Time.deltaTime;
+            }
+        }
+        else
+        {
+            if (lookWeight > 0)
+                lookWeight -= lookSmoothRate * Time.deltaTime;
+        }
+
+        Animator.SetLookAtWeight(lookCurve.Evaluate(lookWeight), lookCurve.Evaluate(lookWeight) * 0.1f, 1, 0, 0.8f);
+        lookWeight = Mathf.Clamp01(lookWeight);
     }
 
     private void Update()
