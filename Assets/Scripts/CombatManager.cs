@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CombatManager : MonoBehaviour
 {
@@ -24,15 +25,28 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private GameObject Player;
     [SerializeField] private GameObject Enemy;
     [SerializeField] public int maxHealth = 12;
-    [SerializeField] public int currHealth = 18;
+    [SerializeField] public int currHealth = 10;
     public float strength = 1;
     public float defense = 1;
     public float strengthMult = 1;
     public float defenseMult = 1;
 
+    private Dictionary<string, int> abilityUses = new Dictionary<string, int>()
+    {
+        {"Red", 4},
+        {"Blue", 4},
+        {"Yellow", 4}
+    };
+    [SerializeField] private TextMeshProUGUI redUsesText;
+    [SerializeField] private TextMeshProUGUI blueUsesText;
+    [SerializeField] private TextMeshProUGUI yellowUsesText;
+
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
+        UpdateRedUsesUI();
+        UpdateBlueUsesUI();
+        UpdateYellowUsesUI();
     }
 
     // Update is called once per frame
@@ -43,7 +57,60 @@ public class CombatManager : MonoBehaviour
 
     public void RedAttack()
     {
-        Enemy.GetComponent<CombatData>().recieveDamage(10 * strength * strengthMult);
+        if (abilityUses["Red"] > 0)
+        {
+            Enemy.GetComponent<CombatData>().recieveDamage(10 * strength * strengthMult);
+            abilityUses["Red"]--;
+        }
+        else { // Reload Ability Uses back to 4
+            abilityUses["Red"] = 4;
+        }
+        UpdateRedUsesUI();
+    }
+
+    public void BlueAttack()
+    {
+        if (abilityUses["Blue"] > 0)
+        {
+            return; // Temporary
+            abilityUses["Blue"]--;
+        }
+        else { // Reload Ability Uses back to 4
+            abilityUses["Blue"] = 4;
+        }
+        UpdateBlueUsesUI();
+    }
+
+    public void YellowAttack()
+    {
+        if (abilityUses["Yellow"] > 0)
+        {
+            Player.GetComponent<CombatData>().recoverHealth(3);
+            if (Enemy.GetComponent<CombatData>().currHealth == Enemy.GetComponent<CombatData>().maxHealth || Enemy.GetComponent<CombatData>().currHealth <= 15)
+            {
+                Enemy.GetComponent<CombatData>().recieveDamage(15 * strength * strengthMult);
+            }
+            abilityUses["Yellow"]--;
+        }
+        else { // Reload Ability Uses back to 4
+            abilityUses["Yellow"] = 4;
+        }
+        UpdateYellowUsesUI();
+    }
+
+    private void UpdateRedUsesUI()
+    {
+        redUsesText.text = "Uses: " + abilityUses["Red"];
+    }
+
+    private void UpdateBlueUsesUI()
+    {
+        blueUsesText.text = "Uses: " + abilityUses["Blue"];
+    }
+
+    private void UpdateYellowUsesUI()
+    {
+        yellowUsesText.text = "Uses: " + abilityUses["Yellow"];
     }
 
     public void updateMaxHealth(int pMaxHealth) { maxHealth = pMaxHealth; }

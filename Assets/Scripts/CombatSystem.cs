@@ -45,6 +45,12 @@ public class CombatSystem : MonoBehaviour
             case 0:
                 CombatManager.Instance.RedAttack();
                 break;
+            case 1:
+                CombatManager.Instance.BlueAttack();
+                break;
+            case 2:
+                CombatManager.Instance.YellowAttack();
+                break;
             default:
                 Debug.Log("Not Implemented, or error");
                 break;
