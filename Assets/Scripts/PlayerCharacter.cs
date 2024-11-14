@@ -26,8 +26,9 @@ public class PlayerCharacter : MonoBehaviour
     public bool IsAnim(string name, int layer) => Animator.GetCurrentAnimatorStateInfo(layer).IsName(name);
     #endregion
 
-    [SerializeField] private float moveSpeed = 5;
-    [SerializeField] private float turnSpeed = 180;
+    [SerializeField] private float moveSpeed = 10;
+    [SerializeField] private float turnSpeed = 360;
+    [SerializeField, Min(0)] private float ySnapSpeed = 1;
     [Header("Raycasting")]
     public LayerMask enviromentLayer = 1;
 
@@ -48,12 +49,21 @@ public class PlayerCharacter : MonoBehaviour
     public bool Sprinting { get { return GetPressed("Sprint") && ForwardAmount > 0.1f; } }
     #endregion
 
-    bool GroundCast(float downDist, out RaycastHit hit) => Physics.Raycast(transform.position + Vector3.up * upOffset, Vector3.down, out hit, downDist, enviromentLayer);
+    bool GroundCast(float downDist, out RaycastHit hit) => Physics.SphereCast(transform.position + Vector3.up * upOffset, characterController.radius, Vector3.down, out hit, downDist, enviromentLayer);
     bool GroundCast(float downDist) => GroundCast(downDist, out RaycastHit hit);
 
 
     void Start()
     {
+    }
+
+    private void Update()
+    {
+        Vector2 m = GetAct("Move").ReadValue<Vector2>();
+        m.x = Mathf.Clamp(m.x, -1, 1);
+        m.y = Mathf.Clamp(m.y, -1, 1);
+
+        Move(m);
     }
 
     public void Move(Vector2 input)
@@ -72,6 +82,8 @@ public class PlayerCharacter : MonoBehaviour
         ForwardAmount = move.z;
         RightAmount = move.x;
 
+        velocity.y = -1 * ySnapSpeed;
+
         UpdateAnimatior(move, GetPressed("Sprint"));
         transform.Rotate(0, TurnAmount * turnSpeed * Time.deltaTime, 0);
     }
@@ -80,13 +92,17 @@ public class PlayerCharacter : MonoBehaviour
     {
         Vector3 move = Animator.deltaPosition * moveSpeed;
 
-        if (characterController.isGrounded && GroundCast(1f, out RaycastHit hit))
+        if (GroundCast(1f, out RaycastHit hit))
+        {
             move = Vector3.ProjectOnPlane(move, hit.normal);
+            transform.position = hit.point;
+        }
         move = (velocity + moveInput * moveSpeed);
 
         characterController.transform.rotation *= Animator.deltaRotation;
         move += velocity.y * Vector3.up;
         characterController.Move(move * Time.deltaTime);
+
     }
 
     public void FootR() { }
