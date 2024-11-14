@@ -19,7 +19,7 @@
                     "type": "Value",
                     "id": "d6b2ddf8-8bc8-498c-9796-0eed81344bb0",
                     "expectedControlType": "Vector2",
-                    "processors": "",
+                    "processors": "InvertVector2",
                     "interactions": "",
                     "initialStateCheck": true
                 },
@@ -36,6 +36,15 @@
                     "name": "Interact",
                     "type": "Button",
                     "id": "16ad5e03-2dc5-4fb4-a69d-b80169b51c34",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Sprint",
+                    "type": "Button",
+                    "id": "0e43b0e8-0670-45bd-a24e-944104272ea2",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -266,11 +275,22 @@
                 {
                     "name": "",
                     "id": "dfb7b68e-6bd9-4359-9da3-fea90a44a0b7",
-                    "path": "",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fda4f80e-264d-49b3-becd-74832671d9ab",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Sprint",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
