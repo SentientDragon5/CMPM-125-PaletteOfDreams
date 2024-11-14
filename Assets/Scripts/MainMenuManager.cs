@@ -13,6 +13,7 @@ public class MainMenuManager : MonoBehaviour
     public int progress_menu;
 
     public string savePath = "save0.sv";
+    public string game_scene = "SampleScene";
 
     public void OpenMenu(int index)
     {
