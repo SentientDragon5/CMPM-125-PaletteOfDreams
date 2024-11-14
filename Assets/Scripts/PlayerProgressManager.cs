@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Saving.SaveUtil;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class PlayerProgressManager : MonoBehaviour
 {
@@ -26,6 +27,8 @@ public class PlayerProgressManager : MonoBehaviour
     public string savePath = "save0.sv";
 
     public List<string> items;
+    // each enemy has an id, when battle entered. the enemy is called "defeated"
+    public List<int> enemiesDefeated;
 
     public Vector3 worldPosition;
     public Vector3 worldEuler;
@@ -44,6 +47,7 @@ public class PlayerProgressManager : MonoBehaviour
     public class SaveFile
     {
         public string[] items;
+        public int[] enemiesDefeated;
         public float[] worldPosition;
         public float[] worldEuler;
         public string worldName;
@@ -56,6 +60,7 @@ public class PlayerProgressManager : MonoBehaviour
     {
         var save = new SaveFile();
         save.items = items.ToArray();
+        save.enemiesDefeated = enemiesDefeated.ToArray();
         save.worldPosition = VectorToArr(worldPosition);
         save.worldEuler = VectorToArr(worldEuler);
         save.worldName = worldName;
@@ -70,6 +75,7 @@ public class PlayerProgressManager : MonoBehaviour
         if(Load(savePath, out SaveFile save))
         {
             items = new List<string>(save.items);
+            enemiesDefeated = new List<int>(save.enemiesDefeated);
             worldPosition = ArrToVector3(save.worldPosition);
             worldEuler = ArrToVector3(save.worldEuler);
             worldName = save.worldName;
@@ -77,6 +83,7 @@ public class PlayerProgressManager : MonoBehaviour
             maxHp = save.maxHp;
             strength = save.strength;
             defense = save.defense;
+
             onLoad.Invoke();
         }
         else
@@ -89,8 +96,15 @@ public class PlayerProgressManager : MonoBehaviour
     public void NewGame()
     {
         items = new();
+        enemiesDefeated = new();
         worldPosition = Vector3.zero;
         worldEuler = Vector3.zero;
         worldName = "L0-Hall";
+        hp = 12;
+        maxHp = 12;
+        strength = 1;
+        defense = 1;
+
+        onLoad.Invoke();
     }
 }

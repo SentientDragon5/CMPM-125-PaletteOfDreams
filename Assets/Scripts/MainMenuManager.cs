@@ -15,6 +15,8 @@ public class MainMenuManager : MonoBehaviour
     public string savePath = "save0.sv";
     public string game_scene = "SampleScene";
 
+    public Button continueButton;
+
     public void OpenMenu(int index)
     {
         menus[current_menu].enabled = false;
@@ -30,9 +32,10 @@ public class MainMenuManager : MonoBehaviour
 
     private void Start()
     {
-        if (FileExists(savePath))
+        if (!FileExists(savePath))
         {
-            print("Ok to continue!");
+            print("Not ok to continue!");
+            continueButton.enabled = false;
         }
     }
 

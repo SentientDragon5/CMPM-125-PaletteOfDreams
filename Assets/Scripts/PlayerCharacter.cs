@@ -73,6 +73,8 @@ public class PlayerCharacter : MonoBehaviour
 
     void Start()
     {
+        transform.position = PlayerProgressManager.instance.worldPosition;
+        transform.eulerAngles = PlayerProgressManager.instance.worldEuler;
     }
 
 
