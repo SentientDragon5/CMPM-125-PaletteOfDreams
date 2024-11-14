@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class CombatData : MonoBehaviour
 {
     [SerializeField] private Slider healthSlider;
-    [SerializeField] private int maxHealth = 10;
-    [SerializeField] private int currHealth = 10;
+    [SerializeField] public int maxHealth = 10;
+    [SerializeField] public int currHealth = 10;
     private float strength = 1;
     private float defense = 1;
     private float strengthMult = 1;
@@ -42,6 +42,16 @@ public class CombatData : MonoBehaviour
     public void recieveDamage(float damage)
     {
         currHealth -= (int)((damage/2) * (defense/4)) ;
+        UpdateHealthUI();
+    }
+
+    public void recoverHealth(int health)
+    {
+        currHealth += health;
+        if (currHealth > maxHealth)
+        {
+            currHealth = maxHealth;
+        }
         UpdateHealthUI();
     }
 
