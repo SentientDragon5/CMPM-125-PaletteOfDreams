@@ -27,7 +27,9 @@ public class MainMenuManager : MonoBehaviour
     public Image progressBar;
     void Awake()
     {
-        progressBar.transform.parent.parent.gameObject.SetActive(false);
+        foreach (var m in menus)
+            m.enabled = false;
+        menus[current_menu].enabled = true;
     }
 
     private void Start()
@@ -48,7 +50,6 @@ public class MainMenuManager : MonoBehaviour
     IEnumerator LoadAsync(string s)
     {
         OpenMenu(progress_menu);
-        progressBar.transform.parent.parent.gameObject.SetActive(true);
         AsyncOperation op = SceneManager.LoadSceneAsync(s);
         while (!op.isDone)
         {
@@ -57,16 +58,17 @@ public class MainMenuManager : MonoBehaviour
             progressBar.fillAmount = progress;
             yield return null;
         }
-        progressBar.transform.parent.parent.gameObject.SetActive(false);
     }
 
     public void LoadGame()
     {
         PlayerProgressManager.instance.LoadGame();
+        LoadSceneName(PlayerProgressManager.instance.worldName);
     }
 
     public void NewGame()
     {
         PlayerProgressManager.instance.NewGame();
+        LoadSceneName(PlayerProgressManager.instance.worldName);
     }
 }
