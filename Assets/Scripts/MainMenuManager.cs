@@ -36,6 +36,8 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
+
+
     public void LoadSceneName(string s) => StartCoroutine(LoadAsync(s));
 
     public void Quit() => Application.Quit();
@@ -57,11 +59,11 @@ public class MainMenuManager : MonoBehaviour
 
     public void LoadGame()
     {
-        LoadSceneName(game_scene);
+        PlayerProgressManager.instance.LoadGame();
     }
 
     public void NewGame()
     {
-        LoadSceneName(game_scene);
+        PlayerProgressManager.instance.NewGame();
     }
 }

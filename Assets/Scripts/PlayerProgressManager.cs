@@ -20,6 +20,7 @@ public class PlayerProgressManager : MonoBehaviour
             Debug.LogError("Player progress was tried to be created twice.");
             Destroy(this);
         }
+        DontDestroyOnLoad(gameObject);
     }
 
     public string savePath = "save0.sv";
@@ -85,15 +86,11 @@ public class PlayerProgressManager : MonoBehaviour
     }
     public UnityEvent onLoad;
 
-    // Start is called before the first frame update
-    void Start()
+    public void NewGame()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        items = new();
+        worldPosition = Vector3.zero;
+        worldEuler = Vector3.zero;
+        worldName = "L0-Hall";
     }
 }

@@ -44,9 +44,23 @@ public class CombatManager : MonoBehaviour
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
+
+        PlayerProgressManager.instance.onLoad.AddListener(LoadSaveData);
+
         UpdateRedUsesUI();
         UpdateBlueUsesUI();
         UpdateYellowUsesUI();
+    }
+
+    void LoadSaveData()
+    {
+        maxHealth = PlayerProgressManager.instance.maxHp;
+        // TODO For each
+    }
+    void OnExitBattle()
+    {
+        PlayerProgressManager.instance.maxHp = maxHealth;
+        // Todo Foreach
     }
 
     // Update is called once per frame
