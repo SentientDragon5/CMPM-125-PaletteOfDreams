@@ -17,4 +17,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Combat.unity
     guid: 747f8d3d639656b4e8beb651bba53605
+  - enabled: 1
+    path: Assets/Scenes/L1-Office.unity
+    guid: b2282704456636d4a8f96dd55f8c0fa7
+  - enabled: 1
+    path: Assets/Scenes/L2-FirstEnemy.unity
+    guid: 5077f907792a4b64c9c2ff9f7eb7fd39
   m_configObjects: {}

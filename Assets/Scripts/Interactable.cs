@@ -14,5 +14,6 @@ public class Interactable : MonoBehaviour
     public virtual void Interact(PlayerCharacter interactor)
     {
         Debug.Log("Interacted with " + gameObject.name);
+        PlayerCharacter.hasKey = true;
     }
 }
