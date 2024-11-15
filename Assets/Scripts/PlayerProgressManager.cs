@@ -20,11 +20,19 @@ public class PlayerProgressManager : MonoBehaviour
         {
             Debug.LogError("Player progress was tried to be created twice.");
             Destroy(this);
+            return;
         }
         DontDestroyOnLoad(gameObject);
+
+        if (loadOnAwake)
+        {
+            LoadGame();
+        }
     }
 
-    public string savePath = "save0.sv";
+    public bool loadOnAwake = false;
+
+    public string savePath = "/save0.sv";
 
     public List<string> items;
     // each enemy has an id, when battle entered. the enemy is called "defeated"
@@ -44,6 +52,7 @@ public class PlayerProgressManager : MonoBehaviour
 
     // number of red paint?
 
+    [System.Serializable]
     public class SaveFile
     {
         public string[] items;
@@ -56,6 +65,7 @@ public class PlayerProgressManager : MonoBehaviour
         public int strength;
         public int defense;
     }
+    [ContextMenu("Save")]
     public void SaveGame()
     {
         var save = new SaveFile();
@@ -70,6 +80,7 @@ public class PlayerProgressManager : MonoBehaviour
         save.defense = defense;
         Save(save, savePath);
     }
+    [ContextMenu("Load")]
     public void LoadGame()
     {
         if(Load(savePath, out SaveFile save))
