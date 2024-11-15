@@ -36,7 +36,7 @@ public class CombatData : MonoBehaviour
 
     public float dealDamage()
     {
-        return (strength * strengthMult);
+        return (10 * strength * strengthMult);
     }
 
     public void recieveDamage(float damage)
