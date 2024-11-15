@@ -8,6 +8,7 @@ public class PlayerCharacter : MonoBehaviour
 {
     private Animator Animator;
     private CharacterController characterController;
+    public static bool hasKey = false;
 
     protected virtual void Awake()
     {

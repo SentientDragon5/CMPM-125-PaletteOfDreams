@@ -8,6 +8,16 @@ public class PickupInteractable : Interactable
     public override void Interact(PlayerCharacter interactor)
     {
         base.Interact(interactor);
-        // add item to inventory
+        Debug.Log("Key picked up");
+        PlayerCharacter.hasKey = true;
+        this.gameObject.SetActive(false);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.TryGetComponent(out PlayerCharacter interactor))
+        {
+            Interact(interactor);
+        }
     }
 }
