@@ -73,10 +73,20 @@ public class PlayerCharacter : MonoBehaviour
 
     void Start()
     {
+        PlayerProgressManager.instance.onPreSave.AddListener(Save);
+        PlayerProgressManager.instance.onLoad.AddListener(Load);
+        Load();
+    }
+    void Save()
+    {
+        PlayerProgressManager.instance.worldPosition = transform.position;
+        PlayerProgressManager.instance.worldEuler = transform.eulerAngles;
+    }
+    void Load()
+    {
         transform.position = PlayerProgressManager.instance.worldPosition;
         transform.eulerAngles = PlayerProgressManager.instance.worldEuler;
     }
-
 
     private void OnEnable()
     {
