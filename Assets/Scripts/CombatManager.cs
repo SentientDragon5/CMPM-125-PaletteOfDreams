@@ -21,7 +21,6 @@ public class CombatManager : MonoBehaviour
             _instance = this;
         }
     }
-    //[SerializeField] private Slider healthSlider;
     [SerializeField] private GameObject Player;
     [SerializeField] private GameObject Enemy;
     [SerializeField] public int maxHealth = 12;
@@ -52,17 +51,6 @@ public class CombatManager : MonoBehaviour
         UpdateYellowUsesUI();
     }
 
-    void LoadSaveData()
-    {
-        maxHealth = PlayerProgressManager.instance.maxHp;
-        // TODO For each
-    }
-    void OnExitBattle()
-    {
-        PlayerProgressManager.instance.maxHp = maxHealth;
-        // Todo Foreach
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -86,8 +74,9 @@ public class CombatManager : MonoBehaviour
     {
         if (abilityUses["Blue"] > 0)
         {
-            return; // Temporary
             abilityUses["Blue"]--;
+            return; // Temporary
+            
         }
         else { // Reload Ability Uses back to 4
             abilityUses["Blue"] = 4;
@@ -127,13 +116,28 @@ public class CombatManager : MonoBehaviour
         yellowUsesText.text = "Uses: " + abilityUses["Yellow"];
     }
 
-    public void updateMaxHealth(int pMaxHealth) { maxHealth = pMaxHealth; }
+    public void LoadSaveData()
+    {
+        maxHealth = PlayerProgressManager.instance.maxHp;
+        currHealth = PlayerProgressManager.instance.hp;
+        strength = PlayerProgressManager.instance.strength;
+        defense = PlayerProgressManager.instance.defense;
+    }
+    public void OnExitBattle()
+    {
+        PlayerProgressManager.instance.maxHp = maxHealth;
+        PlayerProgressManager.instance.hp = currHealth;
+        PlayerProgressManager.instance.strength = strength;
+        PlayerProgressManager.instance.defense = defense;
+    }
+
+    /*public void updateMaxHealth(int pMaxHealth) { maxHealth = pMaxHealth; }
     public void updateCurrHealth(int pCurrHealth) { currHealth = pCurrHealth; }
     public void updateStrength(float pStrength) { strength = pStrength; }
     public void updateDefense(float pDefense) { defense = pDefense; }
     public void updateStrengthMult(float pStrengthMult) { strengthMult = pStrengthMult; }
     public void updateDefenseMult(float pDefenseMult) { defenseMult = pDefenseMult; }
-
+    */
 
 
 }

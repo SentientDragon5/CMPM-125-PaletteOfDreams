@@ -39,8 +39,8 @@ public class PlayerProgressManager : MonoBehaviour
 
     public int hp;
     public int maxHp;
-    public int strength;
-    public int defense;
+    public float strength;
+    public float defense;
 
     // number of red paint?
 
@@ -53,8 +53,8 @@ public class PlayerProgressManager : MonoBehaviour
         public string worldName;
         public int hp;
         public int maxHp;
-        public int strength;
-        public int defense;
+        public float strength;
+        public float defense;
     }
     public void SaveGame()
     {
