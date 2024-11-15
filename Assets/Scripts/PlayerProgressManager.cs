@@ -18,7 +18,8 @@ public class PlayerProgressManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Player progress was tried to be created twice.");
+            LoadGame();
+            Debug.Log("Player progress was tried to be created twice.");
             Destroy(this);
             return;
         }
@@ -68,6 +69,8 @@ public class PlayerProgressManager : MonoBehaviour
     [ContextMenu("Save")]
     public void SaveGame()
     {
+        onPreSave.Invoke();
+
         var save = new SaveFile();
         save.items = items.ToArray();
         save.enemiesDefeated = enemiesDefeated.ToArray();
@@ -79,6 +82,8 @@ public class PlayerProgressManager : MonoBehaviour
         save.strength = strength;
         save.defense = defense;
         Save(save, savePath);
+
+        Debug.Log("Save Succeeded!");
     }
     [ContextMenu("Load")]
     public void LoadGame()
@@ -96,12 +101,15 @@ public class PlayerProgressManager : MonoBehaviour
             defense = save.defense;
 
             onLoad.Invoke();
+
+            Debug.Log("Load Succeeded!");
         }
         else
         {
             Debug.Log("Failed to load!");
         }
     }
+    public UnityEvent onPreSave;
     public UnityEvent onLoad;
 
     public void NewGame()

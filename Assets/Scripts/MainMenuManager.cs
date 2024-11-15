@@ -53,7 +53,6 @@ public class MainMenuManager : MonoBehaviour
         while (!op.isDone)
         {
             float progress = Mathf.Clamp01(op.progress / 0.9f);
-            print(progress);
             progressBar.FillAmount = progress;
             yield return null;
         }
