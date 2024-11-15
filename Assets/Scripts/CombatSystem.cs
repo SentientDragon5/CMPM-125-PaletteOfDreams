@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CombatSystem : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class CombatSystem : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Confined;
         playerActs = GameObject.FindGameObjectsWithTag("PlayerTurn");
+        setUp();
     }
 
     // Update is called once per frame
@@ -66,7 +68,20 @@ public class CombatSystem : MonoBehaviour
 
     public void switchTurn(bool enemyTurn)
     {
-        // add end battle condition
+        // Battle end conditions
+        if (player.GetComponent<CombatData>().currHealth <= 0)
+        {
+            playerTurn();
+            SceneManager.LoadScene(PlayerProgressManager.instance.worldName);
+        }
+        if (enemy.GetComponent<CombatData>().currHealth <= 0)
+        {
+            playerTurn();
+            CombatManager.Instance.OnExitBattle();
+            SceneManager.LoadScene(PlayerProgressManager.instance.worldName);
+        }
+
+        // Switch Turn
         if (!enemyTurn)
         {
             playerTurn();
