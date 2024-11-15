@@ -12,8 +12,7 @@ public class MainMenuManager : MonoBehaviour
 
     public int progress_menu;
 
-    public string savePath = "save0.sv";
-    public string game_scene = "SampleScene";
+    public string savePath = "/save0.sv";
 
     public Button continueButton;
 
@@ -24,7 +23,7 @@ public class MainMenuManager : MonoBehaviour
         menus[current_menu].enabled = true;
     }
 
-    public Image progressBar;
+    public UnityEngine.UI.Extensions.UITorus progressBar;
     void Awake()
     {
         foreach (var m in menus)
@@ -37,7 +36,7 @@ public class MainMenuManager : MonoBehaviour
         if (!FileExists(savePath))
         {
             print("Not ok to continue!");
-            continueButton.enabled = false;
+            continueButton.interactable = false;
         }
     }
 
@@ -54,8 +53,7 @@ public class MainMenuManager : MonoBehaviour
         while (!op.isDone)
         {
             float progress = Mathf.Clamp01(op.progress / 0.9f);
-            print(progress);
-            progressBar.fillAmount = progress;
+            progressBar.FillAmount = progress;
             yield return null;
         }
     }
