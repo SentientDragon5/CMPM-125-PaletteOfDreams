@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class CombatManager : MonoBehaviour
 {
@@ -23,12 +24,12 @@ public class CombatManager : MonoBehaviour
     }
     [SerializeField] private GameObject Player;
     [SerializeField] private GameObject Enemy;
-    [SerializeField] public int maxHealth = 12;
-    [SerializeField] public int currHealth = 10;
-    public float strength = 1;
-    public float defense = 1;
-    public float strengthMult = 1;
-    public float defenseMult = 1;
+    [HideInInspector] public int maxHealth = 22;
+    [HideInInspector] public int currHealth = 22;
+    [HideInInspector] public float strength = 8;
+    [HideInInspector] public float defense = 6;
+    [HideInInspector] public float strengthMult = 1;
+    [HideInInspector] public float defenseMult = 1;
 
     private Dictionary<string, int> abilityUses = new Dictionary<string, int>()
     {
@@ -43,12 +44,11 @@ public class CombatManager : MonoBehaviour
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
-
-        PlayerProgressManager.instance.onLoad.AddListener(LoadSaveData);
-
         UpdateRedUsesUI();
         UpdateBlueUsesUI();
         UpdateYellowUsesUI();
+
+        PlayerProgressManager.instance.onLoad.AddListener(LoadSaveData);
     }
 
     // Update is called once per frame
@@ -61,7 +61,7 @@ public class CombatManager : MonoBehaviour
     {
         if (abilityUses["Red"] > 0)
         {
-            Enemy.GetComponent<CombatData>().recieveDamage(10 * strength * strengthMult);
+            Enemy.GetComponent<CombatData>().recieveDamage(strength * strengthMult);
             abilityUses["Red"]--;
         }
         else { // Reload Ability Uses back to 4
@@ -74,9 +74,8 @@ public class CombatManager : MonoBehaviour
     {
         if (abilityUses["Blue"] > 0)
         {
+            Enemy.GetComponent<CombatData>().becomeWeak(.5f, 2);
             abilityUses["Blue"]--;
-            return; // Temporary
-            
         }
         else { // Reload Ability Uses back to 4
             abilityUses["Blue"] = 4;
@@ -88,10 +87,10 @@ public class CombatManager : MonoBehaviour
     {
         if (abilityUses["Yellow"] > 0)
         {
-            Player.GetComponent<CombatData>().recoverHealth(3);
+            Player.GetComponent<CombatData>().recoverHealth((int)(maxHealth * .3f));
             if (Enemy.GetComponent<CombatData>().currHealth == Enemy.GetComponent<CombatData>().maxHealth || Enemy.GetComponent<CombatData>().currHealth <= 15)
             {
-                Enemy.GetComponent<CombatData>().recieveDamage(15 * strength * strengthMult);
+                Enemy.GetComponent<CombatData>().recieveDamage(strength * strengthMult);
             }
             abilityUses["Yellow"]--;
         }

@@ -84,6 +84,8 @@ public class CombatSystem : MonoBehaviour
         // Switch Turn
         if (!enemyTurn)
         {
+            player.GetComponent<CombatData>().UpdateTurnCounts();
+            enemy.GetComponent<CombatData>().UpdateTurnCounts();
             playerTurn();
         }
         else
