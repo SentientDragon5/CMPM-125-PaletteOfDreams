@@ -107,7 +107,10 @@ public class CombatUIManager : MonoBehaviour
     public void Attack()
     {
         // ADD On Player attack effects here
+        playerData.dealDamage();
+        //CombatSystem.playerAction();
         RefreshUI();
+        
     }
 
     // hook this up to any time the player or enemy gets hit
