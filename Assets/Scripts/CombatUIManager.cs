@@ -36,10 +36,15 @@ public class CombatUIManager : MonoBehaviour
     public Animator playerAnimator;
     public CombatData playerData;
     public CombatData enemyData;
-    
+    public CombatSystem combatSystem;
+
+    public List<DreamSO> dreams;
     
     Color CombineColors(List<PColor> colors)
     {
+        if (colors == null || colors.Count == 0)
+            return Color.gray;
+        
         Color result = new Color(1, 1, 1); // Start with white
         colors = new(colors);
         // 1. Combine any primary colors into secondary colors
@@ -91,6 +96,65 @@ public class CombatUIManager : MonoBehaviour
     {
     }
 
+    void FindDream(List<PColor> input)
+    {
+        Vector3Int c = new Vector3Int(0,0,0);
+        // count our colors
+        for (int i = 0; i < input.Count; i++)
+        {
+            if (input[i] == PColor.Red) c.x++;
+            if (input[i] == PColor.Yellow) c.y++;
+            if (input[i] == PColor.Blue) c.z++;
+        }
+
+        if (c.x == c.y && c.z == c.x)
+        {
+            // all same
+        }
+
+
+        if (c.x >= 4)
+        {
+            // Volcano
+        }
+        if (c.y >= 4)
+        {
+            // Thrill ride
+        }
+        if (c.z >= 4)
+        {
+            // Lucidity
+        }
+        
+        if (c.x >= 2 && c.z >= 2)
+        {
+            // Break up
+        }
+        if (c.y >= 2  && c.x >= 2)
+        {
+            // Whiplash
+        }
+        if (c.z >= 2  && c.y >= 2)
+        {
+            // Relaxation 
+        }
+        
+        if (c.x > c.y && c.x > c.z)
+        {
+            // Bottled rage
+        }
+        if (c.y > c.x && c.y > c.z)
+        {
+            //  Vacacion
+        }
+        if (c.y > c.x && c.z > c.y)
+        {
+            // Flight
+        }
+        
+        // none
+        
+    }
 
     public void AddColor(int colorIndex)
     {
