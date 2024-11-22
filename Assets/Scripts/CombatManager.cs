@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using System.Linq;
 using UnityEngine.Events;
 
 public class CombatManager : MonoBehaviour
@@ -39,6 +40,24 @@ public class CombatManager : MonoBehaviour
         {"Yellow", 4}
     };
 
+    public List<int> AbilityUses
+    {
+        get
+        {
+            int[] uses = new int[3];
+            uses[0] = (abilityUses["Red"]);
+            uses[1] = (abilityUses["Yellow"]);
+            uses[2] = (abilityUses["Blue"]);
+            return uses.ToList();
+        }
+        set
+        {
+            abilityUses["Red"] = value[0];
+            abilityUses["Yellow"] = value[1];
+            abilityUses["Blue"] = value[2];
+        }
+    }
+
     public UnityEvent onRefreshUI;
     private void Start()
     {
@@ -65,6 +84,15 @@ public class CombatManager : MonoBehaviour
         
     }
 
+    public void UseClear()
+    {
+        
+    }
+
+    public void PaletteAttack()
+    {
+        print("Palette attack!");
+    }
     public void RedAttack()
     {
         if (abilityUses["Red"] > 0)

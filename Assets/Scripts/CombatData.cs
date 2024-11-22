@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class CombatData : MonoBehaviour
@@ -28,11 +29,7 @@ public class CombatData : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        //healthSlider.value = currHealth; //UI Testing
-    }
+    public UnityEvent refreshUI = new();
 
     public float dealDamage()
     {
@@ -46,7 +43,7 @@ public class CombatData : MonoBehaviour
         {
             currHealth = 0;
         }
-        UpdateHealthUI();
+        refreshUI.Invoke();
     }
 
     public void recoverHealth(int health)
@@ -56,7 +53,7 @@ public class CombatData : MonoBehaviour
         {
             currHealth = maxHealth;
         }
-        UpdateHealthUI();
+        refreshUI.Invoke();
     }
 
     public void becomeWeak(float wMult, int turnCount)
@@ -79,10 +76,5 @@ public class CombatData : MonoBehaviour
             turnsWeakened = 0;
             strengthMult = 1;
         }
-    }
-
-    private void UpdateHealthUI()
-    {
-        // Handled in Combat UI
     }
 }
