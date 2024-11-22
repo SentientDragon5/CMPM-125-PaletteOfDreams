@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using UnityEngine.Events;
 
 public class CombatManager : MonoBehaviour
 {
@@ -37,18 +38,25 @@ public class CombatManager : MonoBehaviour
         {"Blue", 4},
         {"Yellow", 4}
     };
-    [SerializeField] private TextMeshProUGUI redUsesText;
-    [SerializeField] private TextMeshProUGUI blueUsesText;
-    [SerializeField] private TextMeshProUGUI yellowUsesText;
 
+    public UnityEvent onRefreshUI;
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
-        UpdateRedUsesUI();
-        UpdateBlueUsesUI();
-        UpdateYellowUsesUI();
+        onRefreshUI.Invoke();
 
         PlayerProgressManager.instance.onLoad.AddListener(LoadSaveData);
+    }
+
+    public void OnEnemyTurn()
+    {
+        
+        onRefreshUI.Invoke();
+    }
+
+    void OnEndTurn()
+    {
+        
     }
 
     // Update is called once per frame
@@ -67,7 +75,7 @@ public class CombatManager : MonoBehaviour
         else { // Reload Ability Uses back to 4
             abilityUses["Red"] = 4;
         }
-        UpdateRedUsesUI();
+        onRefreshUI.Invoke();
     }
 
     public void BlueAttack()
@@ -80,7 +88,7 @@ public class CombatManager : MonoBehaviour
         else { // Reload Ability Uses back to 4
             abilityUses["Blue"] = 4;
         }
-        UpdateBlueUsesUI();
+        onRefreshUI.Invoke();
     }
 
     public void YellowAttack()
@@ -97,22 +105,7 @@ public class CombatManager : MonoBehaviour
         else { // Reload Ability Uses back to 4
             abilityUses["Yellow"] = 4;
         }
-        UpdateYellowUsesUI();
-    }
-
-    private void UpdateRedUsesUI()
-    {
-        redUsesText.text = "Uses: " + abilityUses["Red"];
-    }
-
-    private void UpdateBlueUsesUI()
-    {
-        blueUsesText.text = "Uses: " + abilityUses["Blue"];
-    }
-
-    private void UpdateYellowUsesUI()
-    {
-        yellowUsesText.text = "Uses: " + abilityUses["Yellow"];
+        onRefreshUI.Invoke();
     }
 
     public void LoadSaveData()

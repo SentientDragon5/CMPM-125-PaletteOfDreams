@@ -5,9 +5,8 @@ using UnityEngine.UI;
 
 public class CombatData : MonoBehaviour
 {
-    [SerializeField] private Slider healthSlider;
-    [HideInInspector] public int maxHealth = 7;
-    [HideInInspector] public int currHealth = 7;
+    public int maxHealth = 7;
+    public int currHealth = 7;
     private float strength = 10;
     private float defense = 8;
     private float strengthMult = 1;
@@ -27,8 +26,6 @@ public class CombatData : MonoBehaviour
             strengthMult = CombatManager.Instance.strengthMult;
             defenseMult = CombatManager.Instance.defenseMult;
         }
-        healthSlider.maxValue = maxHealth;
-        healthSlider.value = currHealth;
     }
 
     // Update is called once per frame
@@ -86,6 +83,6 @@ public class CombatData : MonoBehaviour
 
     private void UpdateHealthUI()
     {
-        healthSlider.value = currHealth;
+        // Handled in Combat UI
     }
 }

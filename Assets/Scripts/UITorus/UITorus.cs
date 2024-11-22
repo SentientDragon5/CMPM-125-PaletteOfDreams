@@ -97,8 +97,8 @@ namespace UnityEngine.UI.Extensions
             }
         }
 
-        [SerializeField] private float innerRadius = 0.5f;
-        [SerializeField] private float outerRadius = 1f;
+        [SerializeField] public float innerRadius = 0.25f;
+        [SerializeField] public float outerRadius = 0.5f;
         public float InnerRadius { get => innerRadius * Mathf.Min(rectTransform.rect.width, rectTransform.rect.height); }
         public float OuterRadius { get => outerRadius * Mathf.Min(rectTransform.rect.width, rectTransform.rect.height); }
         [SerializeField] private int segments = 64;

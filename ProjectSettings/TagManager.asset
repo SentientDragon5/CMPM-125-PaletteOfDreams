@@ -15,8 +15,8 @@ TagManager:
   - Enviroment
   - Characters
   - Interactables
-  - 
-  - 
+  - Player
+  - Enemies
   - 
   - HiddenCollisions
   - 
