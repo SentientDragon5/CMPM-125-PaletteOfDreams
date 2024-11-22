@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class CombatSystem : MonoBehaviour
@@ -60,9 +61,12 @@ public class CombatSystem : MonoBehaviour
         switchTurn(true);
     }
 
+    public UnityEvent<string> onEnemyTurn;
     public void enemyAction()
     {
-        player.GetComponent<CombatData>().recieveDamage(enemy.GetComponent<CombatData>().dealDamage());
+        var dmg = enemy.GetComponent<CombatData>().dealDamage();
+        player.GetComponent<CombatData>().recieveDamage(dmg);
+        onEnemyTurn.Invoke("You took " + dmg +" damage");
         switchTurn(false);
     }
 

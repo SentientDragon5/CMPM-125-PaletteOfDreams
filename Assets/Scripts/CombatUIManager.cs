@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -5,6 +6,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
 
+public class Dream
+{
+    public string name;
+    public int damage;
+    public float weaken;
+    public int weakenLength;
+}
 public class CombatUIManager : MonoBehaviour
 {
     
@@ -39,7 +47,12 @@ public class CombatUIManager : MonoBehaviour
     public CombatSystem combatSystem;
 
     public List<DreamSO> dreams;
-    
+
+    private void Awake()
+    {
+        
+    }
+
     Color CombineColors(List<PColor> colors)
     {
         if (colors == null || colors.Count == 0)
@@ -96,7 +109,7 @@ public class CombatUIManager : MonoBehaviour
     {
     }
 
-    void FindDream(List<PColor> input)
+    Dream FindDream(List<PColor> input)
     {
         Vector3Int c = new Vector3Int(0,0,0);
         // count our colors
@@ -106,54 +119,100 @@ public class CombatUIManager : MonoBehaviour
             if (input[i] == PColor.Yellow) c.y++;
             if (input[i] == PColor.Blue) c.z++;
         }
-
+        
+        
+        
         if (c.x == c.y && c.z == c.x)
         {
             // all same
+            var dream = new Dream();
+            dream.name = "None";
+            
+            return dream;
         }
 
 
         if (c.x >= 4)
         {
             // Volcano
+            var dream = new Dream();
+            dream.name = "Volcano";
+            
+            return dream;
         }
         if (c.y >= 4)
         {
             // Thrill ride
+            var dream = new Dream();
+            dream.name = "Thrill Ride";
+            
+            return dream;
         }
         if (c.z >= 4)
         {
             // Lucidity
+            var dream = new Dream();
+            dream.name = "Lucidity";
+            
+            return dream;
         }
         
         if (c.x >= 2 && c.z >= 2)
         {
             // Break up
+            var dream = new Dream();
+            dream.name = "Break up";
+            
+            return dream;
         }
         if (c.y >= 2  && c.x >= 2)
         {
             // Whiplash
+            var dream = new Dream();
+            dream.name = "Whiplash";
+            
+            return dream;
         }
         if (c.z >= 2  && c.y >= 2)
         {
             // Relaxation 
+            var dream = new Dream();
+            dream.name = "Relaxation";
+            
+            return dream;
         }
         
         if (c.x > c.y && c.x > c.z)
         {
             // Bottled rage
+            var dream = new Dream();
+            dream.name = "Bottled Rage";
+            
+            return dream;
         }
         if (c.y > c.x && c.y > c.z)
         {
             //  Vacacion
+            var dream = new Dream();
+            dream.name = "Vacation";
+            
+            return dream;
         }
         if (c.y > c.x && c.z > c.y)
         {
             // Flight
+            var dream = new Dream();
+            dream.name = "Flight";
+            
+            return dream;
         }
         
         // none
         
+        var defaultDream = new Dream();
+        defaultDream.name = "None";
+            
+        return defaultDream;
     }
 
     public void AddColor(int colorIndex)
@@ -202,10 +261,12 @@ public class CombatUIManager : MonoBehaviour
             }
         }
         
+        var dream = FindDream(inputColors);
+        
         // preview name
         foreach (var t in previewText)
         {
-            t.text = "Rollercoaster";
+            t.text = dream.name;
         }
         
         // number of ink left
