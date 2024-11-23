@@ -106,15 +106,15 @@ public class CombatSystem : MonoBehaviour
 
         print(enemyTurn);
         // Switch Turn
-        if (!enemyTurn)
+        if (enemyTurn)
+        {
+            StartCoroutine(enemyAction());
+        }
+        else
         {
             player.GetComponent<CombatData>().UpdateTurnCounts();
             enemy.GetComponent<CombatData>().UpdateTurnCounts();
             playerTurn();
-        }
-        else
-        {
-            enemyAction();
         }
     }
 
