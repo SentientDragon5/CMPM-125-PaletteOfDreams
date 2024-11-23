@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class CombatData : MonoBehaviour
 {
-    public int maxHealth = 7;
-    public int currHealth = 7;
+    public EnemyTemplate enemyInfo;
+    [HideInInspector] public int maxHealth = 7;
+    [HideInInspector] public int currHealth = 7;
     private float strength = 10;
     private float defense = 8;
     private float strengthMult = 1;
@@ -17,15 +18,25 @@ public class CombatData : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Loads player data from CombatManager
         if (gameObject.tag == "Player")
         {
             maxHealth = CombatManager.Instance.maxHealth;
             currHealth = CombatManager.Instance.currHealth;
             strength = CombatManager.Instance.strength;
             defense = CombatManager.Instance.defense;
-            strengthMult = CombatManager.Instance.strengthMult;
-            defenseMult = CombatManager.Instance.defenseMult;
+            //strengthMult = CombatManager.Instance.strengthMult;
+            //defenseMult = CombatManager.Instance.defenseMult;
         }
+
+        // Loads enemy data
+        if (gameObject.tag == "Enemy")
+        {
+            GetEnemyInfo();
+        }
+
+        Debug.Log(gameObject.tag + maxHealth);
+
     }
 
     // Update is called once per frame
@@ -34,6 +45,7 @@ public class CombatData : MonoBehaviour
         //healthSlider.value = currHealth; //UI Testing
     }
 
+    // Functions used by CombatSytem
     public float dealDamage()
     {
         return (1 * strength * strengthMult);
@@ -84,5 +96,16 @@ public class CombatData : MonoBehaviour
     private void UpdateHealthUI()
     {
         // Handled in Combat UI
+    }
+
+    // Loads the enemyInfo from the CombatManager
+    private void GetEnemyInfo()
+    {
+        enemyInfo = CombatManager.Instance.GetEnemyTemplate();
+        maxHealth = enemyInfo.health;
+        currHealth = enemyInfo.health;
+        strength = enemyInfo.strength;
+        defense = enemyInfo.defense;
+        Debug.Log(maxHealth);
     }
 }

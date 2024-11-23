@@ -31,6 +31,8 @@ public class CombatManager : MonoBehaviour
     [HideInInspector] public float defense = 6;
     [HideInInspector] public float strengthMult = 1;
     [HideInInspector] public float defenseMult = 1;
+    public EnemyTemplate[] enemies; // Stores Enemy Scriptable Objects for testing
+    private string currLevel;
 
     private Dictionary<string, int> abilityUses = new Dictionary<string, int>()
     {
@@ -65,6 +67,7 @@ public class CombatManager : MonoBehaviour
         
     }
 
+    // Moves available to player
     public void RedAttack()
     {
         if (abilityUses["Red"] > 0)
@@ -108,12 +111,21 @@ public class CombatManager : MonoBehaviour
         onRefreshUI.Invoke();
     }
 
+    // Returns enemy template based on location
+    public EnemyTemplate GetEnemyTemplate()
+    {
+        // TODO: Use location to sort enemy pools and later pull from said pools
+        return enemies[0]; // Test returning first EnemyTemplate - Capsule
+    }
+
+    // Loads and saves player data from PlayerProgressManager
     public void LoadSaveData()
     {
         maxHealth = PlayerProgressManager.instance.maxHp;
         currHealth = PlayerProgressManager.instance.hp;
         strength = PlayerProgressManager.instance.strength;
         defense = PlayerProgressManager.instance.defense;
+        currLevel = PlayerProgressManager.instance.worldName; // Way to pull location for enemy pool
     }
     public void OnExitBattle()
     {
