@@ -1,10 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
 
+public class Dream
+{
+    public string name;
+    public int damage;
+    public float weaken;
+    public int weakenLength;
+}
 public class CombatUIManager : MonoBehaviour
 {
     
@@ -17,6 +26,9 @@ public class CombatUIManager : MonoBehaviour
         Green,  // Secondary color
         Purple  // Secondary color
     }
+
+    public List<int> Uses => CombatManager.Instance.AbilityUses;
+    public int maxSlots = 4;
     
     public List<Image> splotches;
     public Image previewSplotch;
@@ -26,20 +38,85 @@ public class CombatUIManager : MonoBehaviour
     
     public List<PColor> inputColors;
 
-    public List<List<TextMeshProUGUI>> colorAmounts;
+    public List<TextMeshProUGUI> rAmount;
+    public List<TextMeshProUGUI> yAmount;
+    public List<TextMeshProUGUI> bAmount;
+
+    public List<BPMScaler> colorBpms;
+    public List<Button> colorButtons;
+    public BPMScaler attackBpm;
+    public Button attackButton;
     
     public UICurve playerHeathBar;
     public List<TextMeshProUGUI> playerHealth;
     public UICurve enemyHeathBar;
     public List<TextMeshProUGUI> enemyHealth;
+
+    public Canvas textboxCanvas;
+    public TextMeshProUGUI textbox;
+    public Button textboxConfirm;
+
+    public Button redButton;
     
     public Animator playerAnimator;
     public CombatData playerData;
     public CombatData enemyData;
+    public CombatSystem combatSystem;
+
+    public EventSystem eventSystem;
     
+    
+    
+    private void Awake()
+    {
+        combatSystem.onEnemyTurn.AddListener(OnEnemyTurn);
+        combatSystem.onPlayerTurn.AddListener(OnPlayerSubmit);
+        playerData.refreshUI.AddListener(RefreshUI);
+        enemyData.refreshUI.AddListener(RefreshUI);
+        PlayerProgressManager.instance.onLoad.AddListener(RefreshUI);
+        
+        textboxCanvas.enabled = false;
+    }
+
+    public void OnEnemyTurn(string text)
+    {
+        playerAnimator.CrossFade("Hit",0.1f);
+        textbox.text = text;
+        textboxCanvas.enabled = true;
+        eventSystem.SetSelectedGameObject(textboxConfirm.gameObject);
+        
+        for (int i = 0; i < 3; i++)
+        {
+            colorBpms[i].enabled = false;
+        }
+    }
+
+    public void OnPlayerSubmit(string text)
+    {
+        playerAnimator.CrossFade("Attack",0.1f);
+        textbox.text = text;
+        textboxCanvas.enabled = true;
+        eventSystem.SetSelectedGameObject(textboxConfirm.gameObject);
+        
+        
+        for (int i = 0; i < 3; i++)
+        {
+            colorBpms[i].enabled = false;
+        }
+    }
+    public void OnConfirmTextbox()
+    {
+        textboxCanvas.enabled = false;
+        combatSystem.ConfirmMenu();
+        eventSystem.SetSelectedGameObject(redButton.gameObject);
+        RefreshUI();
+    }
     
     Color CombineColors(List<PColor> colors)
     {
+        if (colors == null || colors.Count == 0)
+            return Color.gray;
+        
         Color result = new Color(1, 1, 1); // Start with white
         colors = new(colors);
         // 1. Combine any primary colors into secondary colors
@@ -80,21 +157,126 @@ public class CombatUIManager : MonoBehaviour
         return Color.white - result; 
     }
     
-    // Start is called before the first frame update
     void Start()
     {
+        RefreshUI();
         
     }
 
-    // Update is called once per frame
-    void Update()
+    Dream FindDream(List<PColor> input)
     {
-    }
+        Vector3Int c = new Vector3Int(0,0,0);
+        // count our colors
+        for (int i = 0; i < input.Count; i++)
+        {
+            if (input[i] == PColor.Red) c.x++;
+            if (input[i] == PColor.Yellow) c.y++;
+            if (input[i] == PColor.Blue) c.z++;
+        }
+        
+        
+        
+        if (c.x == c.y && c.z == c.x)
+        {
+            // all same
+            var dream = new Dream();
+            dream.name = "None";
+            
+            return dream;
+        }
 
+
+        if (c.x >= 4)
+        {
+            // Volcano
+            var dream = new Dream();
+            dream.name = "Volcano";
+            
+            return dream;
+        }
+        if (c.y >= 4)
+        {
+            // Thrill ride
+            var dream = new Dream();
+            dream.name = "Thrill Ride";
+            
+            return dream;
+        }
+        if (c.z >= 4)
+        {
+            // Lucidity
+            var dream = new Dream();
+            dream.name = "Lucidity";
+            
+            return dream;
+        }
+        
+        if (c.x >= 2 && c.z >= 2)
+        {
+            // Break up
+            var dream = new Dream();
+            dream.name = "Break up";
+            
+            return dream;
+        }
+        if (c.y >= 2  && c.x >= 2)
+        {
+            // Whiplash
+            var dream = new Dream();
+            dream.name = "Whiplash";
+            
+            return dream;
+        }
+        if (c.z >= 2  && c.y >= 2)
+        {
+            // Relaxation 
+            var dream = new Dream();
+            dream.name = "Relaxation";
+            
+            return dream;
+        }
+        
+        if (c.x > c.y && c.x > c.z)
+        {
+            // Bottled rage
+            var dream = new Dream();
+            dream.name = "Bottled Rage";
+            
+            return dream;
+        }
+        if (c.y > c.x && c.y > c.z)
+        {
+            //  Vacacion
+            var dream = new Dream();
+            dream.name = "Vacation";
+            
+            return dream;
+        }
+        if (c.y > c.x && c.z > c.y)
+        {
+            // Flight
+            var dream = new Dream();
+            dream.name = "Flight";
+            
+            return dream;
+        }
+        
+        // none
+        
+        var defaultDream = new Dream();
+        defaultDream.name = "None";
+            
+        return defaultDream;
+    }
 
     public void AddColor(int colorIndex)
     {
-        inputColors.Add(((PColor)colorIndex));
+        if(Uses[colorIndex] <= 0) return;
+        if (inputColors.Count < maxSlots)
+        {
+            inputColors.Add(((PColor)colorIndex));
+            combatSystem.StartCoroutine(combatSystem.playerAction(colorIndex));
+        }
         RefreshUI();
     }
 
@@ -106,11 +288,12 @@ public class CombatUIManager : MonoBehaviour
 
     public void Attack()
     {
-        // ADD On Player attack effects here
-        playerData.dealDamage();
-        //CombatSystem.playerAction();
-        RefreshUI();
+        combatSystem.StartCoroutine(combatSystem.playerAction(3));
+        inputColors.Clear();
         
+        // ADD On Player attack effects here
+        
+        RefreshUI();
     }
 
     // hook this up to any time the player or enemy gets hit
@@ -138,20 +321,21 @@ public class CombatUIManager : MonoBehaviour
             }
         }
         
+        var dream = FindDream(inputColors);
+        
         // preview name
         foreach (var t in previewText)
         {
-            t.text = "Rollercoaster";
+            t.text = dream.name;
         }
         
         // number of ink left
-        for (int i = 0; i < colorAmounts.Count; i++)
-        {
-            for (int j = 0; j < colorAmounts[i].Count; j++)
-            {
-                colorAmounts[i][j].text = 0.ToString(); // Get the PP
-            }
-        }
+        foreach (var t in rAmount)
+            t.text = Uses[0].ToString();
+        foreach (var t in yAmount)
+            t.text = Uses[1].ToString();
+        foreach (var t in bAmount)
+            t.text = Uses[2].ToString();
         
         // Health bars
         float enemyhp = enemyData.currHealth;
@@ -170,5 +354,16 @@ public class CombatUIManager : MonoBehaviour
         }
         playerHeathBar.fillAmount = playerhp/playermhp;
 
+        
+        // Buttons
+        bool paletteAttack = inputColors.Count >= 4;
+        attackBpm.enabled = paletteAttack;
+        attackButton.interactable = paletteAttack;
+        //attackButton.gameObject.SetActive(paletteAttack);
+        for (int i = 0; i < 3; i++)
+        {
+            colorBpms[i].enabled = !paletteAttack;
+            colorButtons[i].interactable = !paletteAttack;
+        }
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class CombatSystem : MonoBehaviour
@@ -36,7 +37,7 @@ public class CombatSystem : MonoBehaviour
         }
     }
 
-    public void playerAction(int attackID)
+    public IEnumerator playerAction(int attackID)
     {
         for (int i = 0; i < playerActs.Length; i++)
         {
@@ -47,22 +48,41 @@ public class CombatSystem : MonoBehaviour
             case 0:
                 CombatManager.Instance.RedAttack();
                 break;
-            case 1:
+            case 2:// yellow is 1, blue is 2
                 CombatManager.Instance.BlueAttack();
                 break;
-            case 2:
+            case 1:
                 CombatManager.Instance.YellowAttack();
+                break;
+            case 3:
+                CombatManager.Instance.PaletteAttack();
                 break;
             default:
                 Debug.Log("Not Implemented, or error");
                 break;
         }
+        
+        confirmed = false;
+        onPlayerTurn.Invoke("You did " + "<dmg> "+ " damage");
+        // wait until confirmed
+        yield return new WaitUntil(()=>confirmed);
         switchTurn(true);
     }
 
-    public void enemyAction()
+    public UnityEvent<string> onPlayerTurn;
+    [SerializeField] bool confirmed = false;
+    public void ConfirmMenu() => confirmed = true;
+
+    public UnityEvent<string> onEnemyTurn;
+    public IEnumerator enemyAction()
     {
-        player.GetComponent<CombatData>().recieveDamage(enemy.GetComponent<CombatData>().dealDamage());
+        var dmg = enemy.GetComponent<CombatData>().dealDamage();
+        player.GetComponent<CombatData>().recieveDamage(dmg);
+
+        confirmed = false;
+        onEnemyTurn.Invoke("You took " + dmg +" damage");
+        // wait until confirmed
+        yield return new WaitUntil(() => confirmed);
         switchTurn(false);
     }
 
@@ -81,16 +101,17 @@ public class CombatSystem : MonoBehaviour
             SceneManager.LoadScene(PlayerProgressManager.instance.worldName);
         }
 
+        print(enemyTurn);
         // Switch Turn
-        if (!enemyTurn)
+        if (enemyTurn)
+        {
+            StartCoroutine(enemyAction());
+        }
+        else
         {
             player.GetComponent<CombatData>().UpdateTurnCounts();
             enemy.GetComponent<CombatData>().UpdateTurnCounts();
             playerTurn();
-        }
-        else
-        {
-            enemyAction();
         }
     }
 
