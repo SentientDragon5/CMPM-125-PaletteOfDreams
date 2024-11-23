@@ -66,7 +66,6 @@ public class CombatSystem : MonoBehaviour
         onPlayerTurn.Invoke("You did " + "<dmg> "+ " damage");
         // wait until confirmed
         yield return new WaitUntil(()=>confirmed);
-        print("prepare to switch");
         switchTurn(true);
     }
 
@@ -80,12 +79,10 @@ public class CombatSystem : MonoBehaviour
         var dmg = enemy.GetComponent<CombatData>().dealDamage();
         player.GetComponent<CombatData>().recieveDamage(dmg);
 
-        print("enemy turn");
         confirmed = false;
         onEnemyTurn.Invoke("You took " + dmg +" damage");
         // wait until confirmed
         yield return new WaitUntil(() => confirmed);
-        print("prepare to switch to player");
         switchTurn(false);
     }
 

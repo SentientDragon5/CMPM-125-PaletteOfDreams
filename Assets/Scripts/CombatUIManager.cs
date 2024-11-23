@@ -84,6 +84,11 @@ public class CombatUIManager : MonoBehaviour
         textbox.text = text;
         textboxCanvas.enabled = true;
         eventSystem.SetSelectedGameObject(textboxConfirm.gameObject);
+        
+        for (int i = 0; i < 3; i++)
+        {
+            colorBpms[i].enabled = false;
+        }
     }
 
     public void OnPlayerSubmit(string text)
@@ -92,6 +97,12 @@ public class CombatUIManager : MonoBehaviour
         textbox.text = text;
         textboxCanvas.enabled = true;
         eventSystem.SetSelectedGameObject(textboxConfirm.gameObject);
+        
+        
+        for (int i = 0; i < 3; i++)
+        {
+            colorBpms[i].enabled = false;
+        }
     }
     public void OnConfirmTextbox()
     {
@@ -347,7 +358,8 @@ public class CombatUIManager : MonoBehaviour
         // Buttons
         bool paletteAttack = inputColors.Count >= 4;
         attackBpm.enabled = paletteAttack;
-        attackButton.gameObject.SetActive(paletteAttack);
+        attackButton.interactable = paletteAttack;
+        //attackButton.gameObject.SetActive(paletteAttack);
         for (int i = 0; i < 3; i++)
         {
             colorBpms[i].enabled = !paletteAttack;
