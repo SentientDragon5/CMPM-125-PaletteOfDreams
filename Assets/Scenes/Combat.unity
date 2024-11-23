@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.35207292, g: 0.7238324, b: 0.95762795, a: 1}
+  m_IndirectSpecularColor: {r: 0.3521173, g: 0.72388566, b: 0.9584319, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1117,6 +1117,8 @@ MonoBehaviour:
   defense: 6
   strengthMult: 1
   defenseMult: 1
+  enemies:
+  - {fileID: 11400000, guid: 6096be9717edd7748a0c9503f08f9265, type: 2}
   onRefreshUI:
     m_PersistentCalls:
       m_Calls: []
@@ -4667,7 +4669,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -12.099991, y: 11.300018}
+  m_AnchoredPosition: {x: -12.100006, y: 11.300018}
   m_SizeDelta: {x: 158.6, y: 28.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1773428102 &696012631
@@ -7054,7 +7056,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 18.038193, y: -3.8006287}
+  m_AnchoredPosition: {x: 18.038193, y: -3.8005676}
   m_SizeDelta: {x: 158.6, y: 28.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1773428102 &1294527292
@@ -8524,7 +8526,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -42.5}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -45.799957, y: 73.99997}
+  m_AnchoredPosition: {x: -45.799904, y: 73.99997}
   m_SizeDelta: {x: 330.2484, y: 315.57}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1472496378
@@ -9878,7 +9880,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 17.899994, y: -4.399994}
+  m_AnchoredPosition: {x: 17.899994, y: -4.3999786}
   m_SizeDelta: {x: 158.6, y: 28.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1773428102 &1715412710
@@ -10050,6 +10052,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 562fafb4ea954ad4aa25954ed255b4d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyInfo: {fileID: 0}
   maxHealth: 10
   currHealth: 10
   refreshUI:
@@ -11203,7 +11206,7 @@ GameObject:
   - component: {fileID: 1965760628}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11235,6 +11238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 562fafb4ea954ad4aa25954ed255b4d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyInfo: {fileID: 11400000, guid: 6096be9717edd7748a0c9503f08f9265, type: 2}
   maxHealth: 25
   currHealth: 25
   refreshUI:
@@ -11588,7 +11592,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 6.189926, y: 19.563202}
+  m_AnchoredPosition: {x: 6.189911, y: 19.563202}
   m_SizeDelta: {x: 158.6, y: 28.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1773428102 &2075638152
