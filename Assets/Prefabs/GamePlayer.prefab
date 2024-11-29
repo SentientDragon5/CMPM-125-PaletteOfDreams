@@ -85,8 +85,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 669354186069876864}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.03844674, y: 0.12154093, z: -0.004711343, w: 0.99183035}
-  m_LocalPosition: {x: -0.81375515, y: 1.0132113, z: -3.2704508}
+  m_LocalRotation: {x: 0.0390025, y: 0.074261665, z: -0.0029066468, w: 0.9964716}
+  m_LocalPosition: {x: -0.4641981, y: 0.9863663, z: -3.0970967}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1665,7 +1665,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4619862926170926657}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.06050931, y: 0.12140596, z: -0.0074149338, w: 0.99072915}
+  m_LocalRotation: {x: 0.061168235, y: 0.07417862, z: -0.004558541, w: 0.99535686}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2138,7 +2138,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5673696224251071294}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.02448119, y: 0.12159519, z: -0.0029999749, w: 0.99227333}
+  m_LocalRotation: {x: 0.024971565, y: 0.07429523, z: -0.0018609967, w: 0.9969219}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2451,7 +2451,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6453243657421179078}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.04247844, y: 0.12152076, z: -0.005205394, w: 0.9916659}
+  m_LocalRotation: {x: 0.04305307, y: 0.074249245, z: -0.0032085136, w: 0.9963048}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2949,7 +2949,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CollideAgainst:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 65
   m_IgnoreTag: Player
   m_TransparentLayers:
     serializedVersion: 2
@@ -2958,8 +2958,8 @@ MonoBehaviour:
   m_AvoidObstacles: 1
   m_DistanceLimit: 0
   m_MinimumOcclusionTime: 0
-  m_CameraRadius: 0.1
-  m_Strategy: 1
+  m_CameraRadius: 0.25
+  m_Strategy: 0
   m_MaximumEffort: 4
   m_SmoothingTime: 0
   m_Damping: 0
