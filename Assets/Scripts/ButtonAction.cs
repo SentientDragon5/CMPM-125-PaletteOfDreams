@@ -18,6 +18,6 @@ public class ButtonAction : MonoBehaviour
 
     void taskOnClick()
     {
-        combatManagement.GetComponent<CombatSystem>().playerAction(attackID);
+        //combatManagement.GetComponent<CombatSystem>().playerAction(attackID);
     }
 }

@@ -92,10 +92,21 @@ public class CombatManager : MonoBehaviour
         
     }
 
-    public void PaletteAttack()
+    // Player's Palette Ability (After 4+ turns, pulls dream info from CombatSystem.cs)
+    public void PaletteAttack(Dream dream)
     {
         print("Palette attack!");
+        if (dream.damage > 0)
+        {
+            Enemy.GetComponent<CombatData>().recieveDamage((dream.damage + strength) * strengthMult);
+        }
+        if (dream.weakenLength > 0)
+        {
+            Enemy.GetComponent<CombatData>().becomeWeak(dream.weaken, dream.weakenLength);
+        }
     }
+
+    // Player's Red Ability (Damages enemy)
     public void RedAttack()
     {
         if (abilityUses["Red"] > 0)
@@ -109,6 +120,7 @@ public class CombatManager : MonoBehaviour
         onRefreshUI.Invoke();
     }
 
+    // Player's Blue Ability (Weakens enemy)
     public void BlueAttack()
     {
         if (abilityUses["Blue"] > 0)
@@ -122,6 +134,7 @@ public class CombatManager : MonoBehaviour
         onRefreshUI.Invoke();
     }
 
+    // Player's Yellow Ability (Heals and potentially deals damage)
     public void YellowAttack()
     {
         if (abilityUses["Yellow"] > 0)
@@ -162,14 +175,4 @@ public class CombatManager : MonoBehaviour
         PlayerProgressManager.instance.strength = strength;
         PlayerProgressManager.instance.defense = defense;
     }
-
-    /*public void updateMaxHealth(int pMaxHealth) { maxHealth = pMaxHealth; }
-    public void updateCurrHealth(int pCurrHealth) { currHealth = pCurrHealth; }
-    public void updateStrength(float pStrength) { strength = pStrength; }
-    public void updateDefense(float pDefense) { defense = pDefense; }
-    public void updateStrengthMult(float pStrengthMult) { strengthMult = pStrengthMult; }
-    public void updateDefenseMult(float pDefenseMult) { defenseMult = pDefenseMult; }
-    */
-
-
 }

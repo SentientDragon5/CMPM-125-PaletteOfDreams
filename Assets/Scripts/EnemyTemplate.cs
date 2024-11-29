@@ -9,4 +9,5 @@ public class EnemyTemplate : ScriptableObject
     public int health;
     public float strength;
     public float defense;
+    public MoveTemplate[] moves;
 }

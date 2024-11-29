@@ -42,10 +42,11 @@ public class CombatData : MonoBehaviour
 
     public UnityEvent refreshUI = new();
 
-    // Functions used by CombatSytem
+    // Functions used by CombatSytem to affect stats of combatants
     public float dealDamage()
     {
-        return (1 * strength * strengthMult);
+        MoveTemplate move = enemyInfo.moves[Random.Range(0, enemyInfo.moves.Length)];
+        return ((move.damage + strength) * strengthMult);
     }
 
     public void recieveDamage(float damage)
@@ -88,11 +89,6 @@ public class CombatData : MonoBehaviour
             turnsWeakened = 0;
             strengthMult = 1;
         }
-    }
-
-    private void UpdateHealthUI()
-    {
-        // Handled in Combat UI
     }
 
     // Loads the enemyInfo from the CombatManager

@@ -23,12 +23,14 @@ public class CombatSystem : MonoBehaviour
         
     }
 
+    // Pre-Combat set-up before calling for player's turn
     public void setUp()
     {
         //Setup enemy moves/data?
         playerTurn();
     }
 
+    //  Displays Player UI before awaiting input
     public void playerTurn()
     {
         for (int i = 0; i < playerActs.Length; i++)
@@ -37,7 +39,8 @@ public class CombatSystem : MonoBehaviour
         }
     }
 
-    public IEnumerator playerAction(int attackID)
+    // Recieves input and dream from CombatUIManager based on player selection, then calls CombatManager
+    public IEnumerator playerAction(int attackID, Dream dream)
     {
         for (int i = 0; i < playerActs.Length; i++)
         {
@@ -55,7 +58,7 @@ public class CombatSystem : MonoBehaviour
                 CombatManager.Instance.YellowAttack();
                 break;
             case 3:
-                CombatManager.Instance.PaletteAttack();
+                CombatManager.Instance.PaletteAttack(dream);
                 break;
             default:
                 Debug.Log("Not Implemented, or error");
@@ -74,6 +77,8 @@ public class CombatSystem : MonoBehaviour
     public void ConfirmMenu() => confirmed = true;
 
     public UnityEvent<string> onEnemyTurn;
+    
+    // Controls enemy actions (WIP - Will work on implementing variety of moves)
     public IEnumerator enemyAction()
     {
         var dmg = enemy.GetComponent<CombatData>().dealDamage();
@@ -86,27 +91,29 @@ public class CombatSystem : MonoBehaviour
         switchTurn(false);
     }
 
+    // Checks for end conditions, then swaps to the opposite combatant's turn
     public void switchTurn(bool enemyTurn)
     {
-        // Battle end conditions
+        bool endCheck = false;
+        // Battle end conditions based on health
         if (player.GetComponent<CombatData>().currHealth <= 0)
         {
-            playerTurn();
             SceneManager.LoadScene(PlayerProgressManager.instance.worldName);
+            endCheck = true;
         }
         if (enemy.GetComponent<CombatData>().currHealth <= 0)
         {
-            playerTurn();
             CombatManager.Instance.OnExitBattle();
             SceneManager.LoadScene(PlayerProgressManager.instance.worldName);
+            endCheck = true;
         }
 
-        print(enemyTurn);
-        // Switch Turn
-        if (enemyTurn)
+        // Switches Combatant Turn
+        if (enemyTurn && endCheck == false)
         {
             StartCoroutine(enemyAction());
         }
+        //  On player's turn, a new "round" or combat begins, updating turn counters for effects
         else
         {
             player.GetComponent<CombatData>().UpdateTurnCounts();

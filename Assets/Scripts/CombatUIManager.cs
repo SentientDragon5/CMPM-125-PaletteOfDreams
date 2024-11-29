@@ -9,10 +9,10 @@ using UnityEngine.UI.Extensions;
 
 public class Dream
 {
-    public string name;
-    public int damage;
-    public float weaken;
-    public int weakenLength;
+    public string name = "default"; // Gave dream default variables
+    public int damage = 0;
+    public float weaken = 0;
+    public int weakenLength = 0;
 }
 public class CombatUIManager : MonoBehaviour
 {
@@ -64,8 +64,8 @@ public class CombatUIManager : MonoBehaviour
     public CombatSystem combatSystem;
 
     public EventSystem eventSystem;
-    
-    
+
+    public Dream dream; // Declared dream, future references now update dream
     
     private void Awake()
     {
@@ -179,7 +179,7 @@ public class CombatUIManager : MonoBehaviour
         if (c.x == c.y && c.z == c.x)
         {
             // all same
-            var dream = new Dream();
+            dream = new Dream();
             dream.name = "None";
             
             return dream;
@@ -189,7 +189,7 @@ public class CombatUIManager : MonoBehaviour
         if (c.x >= 4)
         {
             // Volcano
-            var dream = new Dream();
+            dream = new Dream();
             dream.name = "Volcano";
             
             return dream;
@@ -197,7 +197,7 @@ public class CombatUIManager : MonoBehaviour
         if (c.y >= 4)
         {
             // Thrill ride
-            var dream = new Dream();
+            dream = new Dream();
             dream.name = "Thrill Ride";
             
             return dream;
@@ -205,7 +205,7 @@ public class CombatUIManager : MonoBehaviour
         if (c.z >= 4)
         {
             // Lucidity
-            var dream = new Dream();
+            dream = new Dream();
             dream.name = "Lucidity";
             
             return dream;
@@ -214,7 +214,7 @@ public class CombatUIManager : MonoBehaviour
         if (c.x >= 2 && c.z >= 2)
         {
             // Break up
-            var dream = new Dream();
+            dream = new Dream();
             dream.name = "Break up";
             
             return dream;
@@ -222,7 +222,7 @@ public class CombatUIManager : MonoBehaviour
         if (c.y >= 2  && c.x >= 2)
         {
             // Whiplash
-            var dream = new Dream();
+            dream = new Dream();
             dream.name = "Whiplash";
             
             return dream;
@@ -230,7 +230,7 @@ public class CombatUIManager : MonoBehaviour
         if (c.z >= 2  && c.y >= 2)
         {
             // Relaxation 
-            var dream = new Dream();
+            dream = new Dream();
             dream.name = "Relaxation";
             
             return dream;
@@ -239,15 +239,16 @@ public class CombatUIManager : MonoBehaviour
         if (c.x > c.y && c.x > c.z)
         {
             // Bottled rage
-            var dream = new Dream();
+            dream = new Dream();
             dream.name = "Bottled Rage";
+            dream.damage = 10;
             
             return dream;
         }
         if (c.y > c.x && c.y > c.z)
         {
             //  Vacacion
-            var dream = new Dream();
+            dream = new Dream();
             dream.name = "Vacation";
             
             return dream;
@@ -255,7 +256,7 @@ public class CombatUIManager : MonoBehaviour
         if (c.y > c.x && c.z > c.y)
         {
             // Flight
-            var dream = new Dream();
+            dream = new Dream();
             dream.name = "Flight";
             
             return dream;
@@ -263,10 +264,10 @@ public class CombatUIManager : MonoBehaviour
         
         // none
         
-        var defaultDream = new Dream();
-        defaultDream.name = "None";
+        dream = new Dream();
+        dream.name = "None";
             
-        return defaultDream;
+        return dream;
     }
 
     public void AddColor(int colorIndex)
@@ -275,7 +276,7 @@ public class CombatUIManager : MonoBehaviour
         if (inputColors.Count < maxSlots)
         {
             inputColors.Add(((PColor)colorIndex));
-            combatSystem.StartCoroutine(combatSystem.playerAction(colorIndex));
+            combatSystem.StartCoroutine(combatSystem.playerAction(colorIndex, dream));
         }
         RefreshUI();
     }
@@ -288,7 +289,7 @@ public class CombatUIManager : MonoBehaviour
 
     public void Attack()
     {
-        combatSystem.StartCoroutine(combatSystem.playerAction(3));
+        combatSystem.StartCoroutine(combatSystem.playerAction(3, dream));
         inputColors.Clear();
         
         // ADD On Player attack effects here
@@ -321,7 +322,7 @@ public class CombatUIManager : MonoBehaviour
             }
         }
         
-        var dream = FindDream(inputColors);
+        dream = FindDream(inputColors);
         
         // preview name
         foreach (var t in previewText)

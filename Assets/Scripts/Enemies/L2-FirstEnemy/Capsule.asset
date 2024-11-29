@@ -16,3 +16,8 @@ MonoBehaviour:
   health: 7
   strength: 10
   defense: 8
+  moves:
+  - {fileID: 11400000, guid: f3e87167d6f2f4048ac2c16c19dd5b87, type: 2}
+  - {fileID: 11400000, guid: f3e87167d6f2f4048ac2c16c19dd5b87, type: 2}
+  - {fileID: 11400000, guid: e740a1053092c134cb9016e211b0b95c, type: 2}
+  - {fileID: 11400000, guid: 7f475b0de64f45b4894d4c114cbb88cc, type: 2}
