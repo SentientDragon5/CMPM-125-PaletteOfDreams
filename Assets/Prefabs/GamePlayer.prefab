@@ -85,8 +85,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 669354186069876864}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.0021776252, y: 0.98420423, z: -0.012135566, w: 0.17660715}
-  m_LocalPosition: {x: -2.073681, y: 1.0132085, z: 5.5921}
+  m_LocalRotation: {x: 0.03844674, y: 0.12154093, z: -0.004711343, w: 0.99183035}
+  m_LocalPosition: {x: -0.81375515, y: 1.0132113, z: -3.2704508}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1665,7 +1665,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4619862926170926657}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.006107282, y: 0.98369044, z: -0.03403494, w: 0.17651491}
+  m_LocalRotation: {x: 0.06050931, y: 0.12140596, z: -0.0074149338, w: 0.99072915}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2138,7 +2138,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5673696224251071294}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.00030864475, y: 0.98427755, z: 0.0017200297, w: 0.17662027}
+  m_LocalRotation: {x: 0.02448119, y: 0.12159519, z: -0.0029999749, w: 0.99227333}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2451,7 +2451,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6453243657421179078}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.0028955555, y: 0.9841468, z: -0.016136479, w: 0.17659685}
+  m_LocalRotation: {x: 0.04247844, y: 0.12152076, z: -0.005205394, w: 0.9916659}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2821,7 +2821,7 @@ Transform:
   m_GameObject: {fileID: 8034634497834912176}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.073681, y: 1.0132085, z: 5.5921}
+  m_LocalPosition: {x: -0.813749, y: 1.0132085, z: -5.90843}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2872,7 +2872,7 @@ MonoBehaviour:
   m_YAxis:
     Value: 0.38796338
     m_SpeedMode: 0
-    m_MaxSpeed: 2
+    m_MaxSpeed: 1.6
     m_AccelTime: 0.2
     m_DecelTime: 0.1
     m_InputAxisName: Mouse Y
@@ -2896,7 +2896,7 @@ MonoBehaviour:
   m_XAxis:
     Value: 0
     m_SpeedMode: 0
-    m_MaxSpeed: 300
+    m_MaxSpeed: 240
     m_AccelTime: 0.1
     m_DecelTime: 0.1
     m_InputAxisName: Mouse X
@@ -2980,7 +2980,7 @@ MonoBehaviour:
   PlayerIndex: -1
   AutoEnableInputs: 1
   XYAxis: {fileID: -3897893323562462262, guid: 72ba34bdde620684fb056494072ef40c, type: 3}
-  ZAxis: {fileID: 0}
+  ZAxis: {fileID: -8070484036349511805, guid: 72ba34bdde620684fb056494072ef40c, type: 3}
 --- !u!1 &8832823669194112445
 GameObject:
   m_ObjectHideFlags: 0
@@ -3627,7 +3627,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerInput: {fileID: 104570509309231761}
-  moveSpeed: 8
+  moveSpeed: 6
   turnSpeed: 360
   ySnapSpeed: 10
   enviromentLayer:

@@ -233,8 +233,8 @@ public class PlayerCharacter : MonoBehaviour
             move = Vector3.ProjectOnPlane(move, hit.normal);
             transform.position = hit.point;
         }
-        move *= moveSpeed;
-        //move = (velocity + moveInput * moveSpeed);
+        //move *= moveSpeed;
+        move = (velocity + moveInput * moveSpeed);
 
         characterController.transform.rotation *= Animator.deltaRotation;
         move += velocity.y * Vector3.up;
