@@ -20,9 +20,11 @@ public class PlayerProgressManager : MonoBehaviour
         {
             LoadGame();
             Debug.Log("Player progress was tried to be created twice.");
-            Destroy(this);
+            Destroy(gameObject);
             return;
         }
+        
+        transform.parent = null;
         DontDestroyOnLoad(gameObject);
 
         if (loadOnAwake)
