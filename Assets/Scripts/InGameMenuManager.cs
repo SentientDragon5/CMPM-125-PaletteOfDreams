@@ -29,6 +29,7 @@ public class InGameMenuManager : MonoBehaviour
         current_menu = gameMenu;
         menus[gameMenu].enabled = true;
         Time.timeScale = 1;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void LoadSceneName(string s) => StartCoroutine(LoadAsync(s));
@@ -53,11 +54,13 @@ public class InGameMenuManager : MonoBehaviour
         if (current_menu == gameMenu)
         {
             Time.timeScale = 0;
+            Cursor.lockState = CursorLockMode.Confined;
             OpenMenu(pauseMenu);
         }
         else
         {
             Time.timeScale = 1;
+            Cursor.lockState = CursorLockMode.Locked;
             OpenMenu(gameMenu);
         }
     }
