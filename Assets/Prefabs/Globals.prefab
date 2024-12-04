@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85a21c802defe5c4584fbb36669544c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadOnAwake: 0
+  loadOnAwake: 1
   savePath: /save0.sv
   items: []
   enemiesDefeated: 

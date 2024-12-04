@@ -85,7 +85,7 @@ public class PlayerProgressManager : MonoBehaviour
         save.defense = defense;
         Save(save, savePath);
 
-        Debug.Log("Save Succeeded!");
+        Debug.Log("Save Succeeded! " + worldName);
     }
     [ContextMenu("Load")]
     public void LoadGame()
@@ -104,7 +104,7 @@ public class PlayerProgressManager : MonoBehaviour
 
             onLoad.Invoke();
 
-            Debug.Log("Load Succeeded!");
+            Debug.Log("Load Succeeded! " + worldName);
         }
         else
         {
