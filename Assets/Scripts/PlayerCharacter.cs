@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerCharacter : MonoBehaviour
 {
-    private Animator Animator;
+    public Animator Animator;
     private CharacterController characterController;
     public static bool hasKey = false;
 
@@ -245,7 +245,7 @@ public class PlayerCharacter : MonoBehaviour
         transform.Rotate(0, TurnAmount * turnSpeed * Time.deltaTime, 0);
     }
     public float sprintMultiplier = 1.5f;
-    private void OnAnimatorMove()
+    /*private void OnAnimatorMove()
     {
         if (inAir) return;
 
@@ -263,7 +263,7 @@ public class PlayerCharacter : MonoBehaviour
         move += velocity.y * Vector3.up;
         characterController.Move(move * Time.deltaTime);
 
-    }
+    }*/
 
     public void FootR() { }
     public void FootL() { }
