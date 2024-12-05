@@ -54,6 +54,7 @@ public class CombatUIManager : MonoBehaviour
     public List<TextMeshProUGUI> playerHealth;
     public UICurve enemyHeathBar;
     public List<TextMeshProUGUI> enemyHealth;
+    public TextMeshProUGUI enemyName;
 
     public Canvas textboxCanvas;
     public TextMeshProUGUI textbox;
@@ -212,7 +213,7 @@ public class CombatUIManager : MonoBehaviour
             // Thrill ride
             dream = new Dream();
             dream.name = "Thrill Ride";
-            dream.description = "If you’re full Health, deal 35 Damage. Else, heal 10 Health.";
+            dream.description = "If youï¿½re full Health, deal 35 Damage. Else, heal 10 Health.";
             dream.damage = 0;
             dream.weaken = 0;
             dream.weakenLength = 0;
@@ -405,6 +406,8 @@ public class CombatUIManager : MonoBehaviour
             enemyHealth[i].text = enemyhp.ToString() + "/" + enemymhp.ToString() + " HP";
         }
         enemyHeathBar.fillAmount = enemyhp/enemymhp;
+
+        enemyName.text = enemyData.enemyInfo.enemyName;
         
         float playerhp = playerData.currHealth;
         float playermhp = playerData.maxHealth;

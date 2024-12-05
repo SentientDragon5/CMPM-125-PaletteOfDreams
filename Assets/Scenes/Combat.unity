@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3521173, g: 0.72388566, b: 0.9584319, a: 1}
+  m_IndirectSpecularColor: {r: 0.35207292, g: 0.7238324, b: 0.95762795, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1227,6 +1227,7 @@ MonoBehaviour:
   enemyHeathBar: {fileID: 117619949}
   enemyHealth:
   - {fileID: 949590159}
+  enemyName: {fileID: 413990848}
   textboxCanvas: {fileID: 478821937}
   textbox: {fileID: 2058339718}
   textboxConfirm: {fileID: 1548181266}
@@ -4395,7 +4396,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -12.099991, y: 11.300018}
+  m_AnchoredPosition: {x: -12.100006, y: 11.299988}
   m_SizeDelta: {x: 158.6, y: 28.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1773428102 &696012631
@@ -6819,7 +6820,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 18.038193, y: -3.8005981}
+  m_AnchoredPosition: {x: 18.038208, y: -3.8006134}
   m_SizeDelta: {x: 158.6, y: 28.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1773428102 &1294527292
@@ -8266,7 +8267,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -42.5}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -45.799896, y: 73.99997}
+  m_AnchoredPosition: {x: -45.799942, y: 73.99999}
   m_SizeDelta: {x: 330.2484, y: 315.57}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1472496378
@@ -11444,7 +11445,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 6.189926, y: 19.563217}
+  m_AnchoredPosition: {x: 6.189911, y: 19.563232}
   m_SizeDelta: {x: 158.6, y: 28.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1773428102 &2075638152
