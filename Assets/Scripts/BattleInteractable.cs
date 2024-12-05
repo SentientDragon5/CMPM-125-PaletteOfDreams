@@ -18,7 +18,8 @@ public class BattleInteractable : Interactable
 {
     [Header("SET ID TO BE UNIQUE")]
     public int myId = -1;
-    
+
+    public EnemyTemplate template;
     
     private NavMeshAgent agent;
     [Header("State")]
@@ -95,6 +96,9 @@ public class BattleInteractable : Interactable
         PlayerProgressManager.instance.worldName = SceneManager.GetActiveScene().name;
         PlayerProgressManager.instance.enemiesDefeated.Add(myId);
 
+        
+        GameObject g = new GameObject("Enemy"+template.enemyName);
+        DontDestroyOnLoad(g);
         SceneManager.LoadScene(sceneName);
     }
 

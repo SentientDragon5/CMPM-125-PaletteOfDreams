@@ -406,6 +406,7 @@ public class CombatUIManager : MonoBehaviour
             enemyHealth[i].text = enemyhp.ToString() + "/" + enemymhp.ToString() + " HP";
         }
         enemyHeathBar.fillAmount = enemyhp/enemymhp;
+        enemyHeathBar.SetAllDirty();
 
         enemyName.text = enemyData.enemyInfo.enemyName;
         
@@ -416,6 +417,7 @@ public class CombatUIManager : MonoBehaviour
             playerHealth[i].text = playerhp.ToString() + "/" + playermhp.ToString() + " HP";
         }
         playerHeathBar.fillAmount = playerhp/playermhp;
+        playerHeathBar.SetAllDirty();
 
         
         // Buttons

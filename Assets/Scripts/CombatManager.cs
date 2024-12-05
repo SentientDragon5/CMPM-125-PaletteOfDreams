@@ -228,9 +228,20 @@ public class CombatManager : MonoBehaviour
     // Returns enemy template based on location
     public EnemyTemplate GetEnemyTemplate()
     {
+        foreach (var template in enemies)
+        {
+            var g = GameObject.Find(("Enemy" + template.enemyName));
+            if (g != null)
+            {
+                Destroy(g);
+                return template;
+            }
+        }
+
+        return null;
         // TODO: Use location to sort enemy pools and later pull from said pools
-        int enemyPick = UnityEngine.Random.Range(0, enemies.Length);
-        return enemies[enemyPick]; // Test returning first EnemyTemplate - Capsule
+        //int enemyPick = UnityEngine.Random.Range(0, enemies.Length);
+        //return enemies[enemyPick]; // Test returning first EnemyTemplate - Capsule
     }
 
     // Loads and saves player data from PlayerProgressManager
