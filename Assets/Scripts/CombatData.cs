@@ -52,6 +52,10 @@ public class CombatData : MonoBehaviour
     public int recieveDamage(float damage)
     {
         int dmg = (int)((damage / 2) - (defense / 4));
+        if (dmg < 0)
+        {
+            dmg = 0;
+        }
         currHealth -= dmg;
         if (currHealth < 0)
         {

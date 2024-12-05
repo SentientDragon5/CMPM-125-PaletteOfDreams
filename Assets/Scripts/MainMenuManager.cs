@@ -44,7 +44,7 @@ public class MainMenuManager : MonoBehaviour
         }
         
         var win = GameObject.Find("WIN");
-        if (died != null)
+        if (win != null)
         {
             print("Win, opening end menu");
             Destroy(win);
