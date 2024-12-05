@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using System.Linq;
 using UnityEngine.SceneManagement;
 
@@ -18,12 +17,6 @@ public class PlayerCharacter : MonoBehaviour
     }
 
     #region aliases
-    public PlayerInput playerInput;
-    public InputAction GetAct(string n) => playerInput.actions[n];
-    public bool GetDown(string n) => GetAct(n).WasPressedThisFrame();
-    public bool GetUp(string n) => GetAct(n).WasReleasedThisFrame();
-    public bool GetPressed(string n) => GetAct(n).IsPressed();
-    public Vector2 GetV2(string n) => GetAct(n).ReadValue<Vector2>();
 
     public bool IsAnim(string name) => Animator.GetCurrentAnimatorStateInfo(0).IsName(name);
     public bool IsAnim(string name, int layer) => Animator.GetCurrentAnimatorStateInfo(layer).IsName(name);
@@ -66,7 +59,7 @@ public class PlayerCharacter : MonoBehaviour
 
     #region properies
     public Vector3 CharacterVelocity { get => characterController.velocity; }
-    public bool Sprinting { get { return GetPressed("Sprint") && ForwardAmount > 0.1f; } }
+    public bool Sprinting { get { return false && ForwardAmount > 0.1f; } }
     #endregion
 
     bool GroundCast(float downDist, out RaycastHit hit) => Physics.SphereCast(transform.position + Vector3.up * upOffset, characterController.radius, Vector3.down, out hit, downDist, enviromentLayer);
@@ -91,18 +84,6 @@ public class PlayerCharacter : MonoBehaviour
         transform.eulerAngles = PlayerProgressManager.instance.worldEuler;
     }
 
-    private void OnEnable()
-    {
-        GetAct("Interact").performed += _ => Interact();
-    }
-
-    private void OnDisable()
-    {
-        if (playerInput != null)
-        {
-            GetAct("Interact").performed -= _ => Interact();
-        }
-    }
 
     /// <summary>
     /// Call this to update the interaction Queue.
@@ -197,7 +178,7 @@ public class PlayerCharacter : MonoBehaviour
 
     private void Update()
     {
-        Vector2 m = GetAct("Move").ReadValue<Vector2>();
+        Vector2 m = new(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));//GetAct("Move").ReadValue<Vector2>();
         m.x = Mathf.Clamp(m.x, -1, 1);
         m.y = Mathf.Clamp(m.y, -1, 1);
 
@@ -223,7 +204,7 @@ public class PlayerCharacter : MonoBehaviour
 
         velocity.y = -1 * ySnapSpeed;
 
-        UpdateAnimatior(move, GetPressed("Sprint"));
+        UpdateAnimatior(move, false);
         transform.Rotate(0, TurnAmount * turnSpeed * Time.deltaTime, 0);
     }
 public float sprintMultiplier = 1.5f;
