@@ -201,7 +201,8 @@ public class PlayerCharacter : MonoBehaviour
         m.x = Mathf.Clamp(m.x, -1, 1);
         m.y = Mathf.Clamp(m.y, -1, 1);
 
-        Move(m);
+        if (!inAir)
+            Move(m);
     }
 
     public void Move(Vector2 input)
@@ -228,6 +229,8 @@ public class PlayerCharacter : MonoBehaviour
 
     private void OnAnimatorMove()
     {
+        if(inAir) return;
+        
         Vector3 move = Animator.deltaPosition * moveSpeed;
 
         if (GroundCast(1f, out RaycastHit hit))
@@ -257,6 +260,46 @@ public class PlayerCharacter : MonoBehaviour
         Animator.SetBool("OnGround", true);
 
         //if (Grounded && move.magnitude > 0.1f && !(IsAnim("Grounded") || IsAnim("Crouching") || IsAnim("Strafing"))) Animator.CrossFade("Grounded", 0f, 0);
+    }
+
+    private bool inAir;
+
+    public void JumpTo(JumpPoint jumpPoint)
+    {
+        Animator.CrossFade("Jumping", 0.1f, 0);
+        StartCoroutine(Jump(jumpPoint));
+    }
+    
+    public AnimationCurve jumpCurve; // Assign your curve in the inspector
+    public float jumpSpeed = 5f; // Adjust jump speed as needed
+
+    IEnumerator Jump(JumpPoint jumpPoint)
+    {
+        inAir = true;
+        Vector3 startPos = transform.position;
+        Vector3 targetPos = jumpPoint.transform.position;
+        float distance = Vector3.Distance(startPos, targetPos);
+        float timeElapsed = 0f;
+
+        print(startPos + " " + targetPos);
+        float t = 0;
+        while (t < 1f) 
+        {
+            timeElapsed += Time.deltaTime;
+            t = timeElapsed * jumpSpeed / distance; // Calculate t based on speed
+
+            // Apply the curve to the Y position
+            float curveY = jumpCurve.Evaluate(t);
+            Vector3 currentPos = Vector3.Lerp(startPos, targetPos, t);
+            currentPos.y += curveY;
+
+            characterController.Move(currentPos - transform.position);
+            print(currentPos + " " + t);
+            yield return new WaitForFixedUpdate();
+        }
+        transform.position = targetPos;
+        inAir = false;
+        Animator.CrossFade("Walking", 0.1f, 0);
     }
 }
 
