@@ -32,6 +32,7 @@ public class CombatManager : MonoBehaviour
     [HideInInspector] public float defense = 6;
     [HideInInspector] public float strengthMult = 1;
     [HideInInspector] public float defenseMult = 1;
+    [HideInInspector] public int turnCounter = 0;
     public EnemyTemplate[] enemies; // Stores Enemy Scriptable Objects for testing
     private string currLevel;
 
@@ -63,7 +64,6 @@ public class CombatManager : MonoBehaviour
     public UnityEvent onRefreshUI;
     private void Start()
     {
-        DontDestroyOnLoad(gameObject);
         onRefreshUI.Invoke();
 
         PlayerProgressManager.instance.onLoad.AddListener(LoadSaveData);
@@ -75,9 +75,12 @@ public class CombatManager : MonoBehaviour
         onRefreshUI.Invoke();
     }
 
-    void OnEndTurn()
+    public void OnEndTurn()
     {
-        
+        onRefreshUI.Invoke();
+        turnCounter++; // Turn counter to keep track for Bottled Rage
+        Debug.Log("turning");
+
     }
 
     // Update is called once per frame
@@ -93,63 +96,133 @@ public class CombatManager : MonoBehaviour
     }
 
     // Player's Palette Ability (After 4+ turns, pulls dream info from CombatSystem.cs)
-    public void PaletteAttack(Dream dream)
+    public string PaletteAttack(Dream dream)
     {
+        string msg = "";
         print("Palette attack!");
-        if (dream.damage > 0)
+        if (dream.name == "Bottled Rage")
         {
-            Enemy.GetComponent<CombatData>().recieveDamage((dream.damage + strength) * strengthMult);
+            int dmg = Enemy.GetComponent<CombatData>().recieveDamage(turnCounter * 10);
+            msg += "You dealt " + dmg + " damage! ";
         }
-        if (dream.weakenLength > 0)
+        else if (dream.name == "Thrill Ride")
         {
-            Enemy.GetComponent<CombatData>().becomeWeak(dream.weaken, dream.weakenLength);
+            CombatData playerData = Player.GetComponent<CombatData>();
+            if (playerData.currHealth == playerData.maxHealth)
+            {
+                int dmg = Enemy.GetComponent<CombatData>().recieveDamage((dream.damage + strength) * strengthMult);
+                msg += "You dealt " + dmg + " damage! ";
+            }
+            else
+            {
+                int dmg = Player.GetComponent<CombatData>().recoverHealth((int)(10 * .3f));
+                msg += "You healed " + dmg + " HP! ";
+            }
         }
+        else if (dream.name == "Whiplash")
+        {
+            CombatData playerData = Player.GetComponent<CombatData>();
+
+            int missingHealth = playerData.maxHealth - playerData.currHealth;
+            int damage = missingHealth;
+            int dmg = Enemy.GetComponent<CombatData>().recieveDamage(damage);
+            msg += "You dealt " + dmg + " damage! ";
+        }
+        else if (dream.name == "Vacation")
+        {
+            int dmg = Enemy.GetComponent<CombatData>().recieveDamage(Player.GetComponent<CombatData>().currHealth);
+            msg += "You dealt " + dmg + " damage! ";
+        }
+        else if (dream.name == "Flight")
+        {
+            msg += "All abilities now deal 4 damage and heal 2 HP! ";
+        }
+        else
+        {
+            if (dream.damage > 0)
+            {
+                int dmg = Enemy.GetComponent<CombatData>().recieveDamage((dream.damage + strength) * strengthMult);
+                msg += "You dealt " + dmg + " damage! ";
+            }
+            if (dream.weakenLength > 0)
+            {
+                int turnsWeak = Enemy.GetComponent<CombatData>().becomeWeak(dream.weaken, dream.weakenLength);
+                msg += "You weakened the enemy for 99 turns! (" + turnsWeak + " left) ";
+            }
+            if (dream.heal > 0)
+            {
+                int dmg = Player.GetComponent<CombatData>().recoverHealth((int)(15 * .3f));
+                msg += "You healed " + dmg + " HP! ";
+            }
+            if (dream.selfWeak > 0)
+            {
+
+            }
+        }
+        Debug.Log(msg);
+        return msg;
     }
 
     // Player's Red Ability (Damages enemy)
-    public void RedAttack()
+    public string RedAttack()
     {
         if (abilityUses["Red"] > 0)
         {
-            Enemy.GetComponent<CombatData>().recieveDamage(strength * strengthMult);
+            int dmg = Enemy.GetComponent<CombatData>().recieveDamage(strength * strengthMult);
             abilityUses["Red"]--;
+            onRefreshUI.Invoke();
+            return ("You dealt " + dmg + " damage!");
         }
         else { // Reload Ability Uses back to 4
             abilityUses["Red"] = 4;
+            onRefreshUI.Invoke();
+            return ("Reloading Red.");
         }
-        onRefreshUI.Invoke();
     }
 
     // Player's Blue Ability (Weakens enemy)
-    public void BlueAttack()
+    public string BlueAttack()
     {
         if (abilityUses["Blue"] > 0)
         {
-            Enemy.GetComponent<CombatData>().becomeWeak(.5f, 2);
+            int turnsWeak = Enemy.GetComponent<CombatData>().becomeWeak(.5f, 2);
             abilityUses["Blue"]--;
+            onRefreshUI.Invoke();
+            return ("You weakened the enemy, now deals less damage. (" + turnsWeak + " turns)");
         }
         else { // Reload Ability Uses back to 4
             abilityUses["Blue"] = 4;
+            onRefreshUI.Invoke();
+            return ("Reloading Blue.");
         }
-        onRefreshUI.Invoke();
     }
 
     // Player's Yellow Ability (Heals and potentially deals damage)
-    public void YellowAttack()
+    public string YellowAttack()
     {
         if (abilityUses["Yellow"] > 0)
         {
-            Player.GetComponent<CombatData>().recoverHealth((int)(maxHealth * .3f));
+            int amtHealed = Player.GetComponent<CombatData>().recoverHealth((int)(maxHealth * .3f));
             if (Enemy.GetComponent<CombatData>().currHealth == Enemy.GetComponent<CombatData>().maxHealth || Enemy.GetComponent<CombatData>().currHealth <= 15)
             {
-                Enemy.GetComponent<CombatData>().recieveDamage(strength * strengthMult);
+                //Enemy.GetComponent<CombatData>().recieveDamage(strength * strengthMult);
             }
             abilityUses["Yellow"]--;
+            onRefreshUI.Invoke();
+            return ("You healed " + amtHealed + " HP");
         }
         else { // Reload Ability Uses back to 4
             abilityUses["Yellow"] = 4;
+            onRefreshUI.Invoke();
+            return ("Reloading Yeallow.");
         }
-        onRefreshUI.Invoke();
+    }
+
+    public void FlightMode()
+    {
+        // Runs if the Flight Dream has been used in combat yet
+        Player.GetComponent<CombatData>().recoverHealth(2);
+        Enemy.GetComponent<CombatData>().recieveDamage((4f + strength) * strengthMult);
     }
 
     // Returns enemy template based on location
