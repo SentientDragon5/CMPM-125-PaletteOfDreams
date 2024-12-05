@@ -1117,8 +1117,18 @@ MonoBehaviour:
   defense: 6
   strengthMult: 1
   defenseMult: 1
+  turnCounter: 0
   enemies:
-  - {fileID: 11400000, guid: 6096be9717edd7748a0c9503f08f9265, type: 2}
+  - {fileID: 11400000, guid: 9d7fabd58af2d3b4cabf152c3931ee6a, type: 2}
+  - {fileID: 11400000, guid: 9d7fabd58af2d3b4cabf152c3931ee6a, type: 2}
+  - {fileID: 11400000, guid: 9d7fabd58af2d3b4cabf152c3931ee6a, type: 2}
+  - {fileID: 11400000, guid: 5d22443b49d5c6b489e91ddfdf3ff6ac, type: 2}
+  - {fileID: 11400000, guid: 5d22443b49d5c6b489e91ddfdf3ff6ac, type: 2}
+  - {fileID: 11400000, guid: 26a21db6cf580f049a252109a91fcd73, type: 2}
+  - {fileID: 11400000, guid: 26a21db6cf580f049a252109a91fcd73, type: 2}
+  - {fileID: 11400000, guid: 18c9d33e4e889cc4fa796a54c148474d, type: 2}
+  - {fileID: 11400000, guid: 18c9d33e4e889cc4fa796a54c148474d, type: 2}
+  - {fileID: 11400000, guid: ce1c67fd74ce2dd47bd01f33fea5a5a1, type: 2}
   onRefreshUI:
     m_PersistentCalls:
       m_Calls: []
@@ -1151,6 +1161,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1715483586}
   enemy: {fileID: 1965760625}
+  flightActive: 0
   onPlayerTurn:
     m_PersistentCalls:
       m_Calls: []
@@ -4384,7 +4395,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -12.100006, y: 11.300018}
+  m_AnchoredPosition: {x: -12.099991, y: 11.300018}
   m_SizeDelta: {x: 158.6, y: 28.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1773428102 &696012631
@@ -6808,7 +6819,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 18.038208, y: -3.8006134}
+  m_AnchoredPosition: {x: 18.038193, y: -3.8005981}
   m_SizeDelta: {x: 158.6, y: 28.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1773428102 &1294527292
@@ -8834,13 +8845,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1608831630}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1789366312}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 298, y: -59}
@@ -9684,7 +9695,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 17.899994, y: -4.399994}
+  m_AnchoredPosition: {x: 17.899994, y: -4.3999786}
   m_SizeDelta: {x: 158.6, y: 28.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1773428102 &1715412710
@@ -9857,6 +9868,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyInfo: {fileID: 0}
+  enemyImage: {fileID: 0}
   maxHealth: 10
   currHealth: 10
   refreshUI:
@@ -10974,7 +10986,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1963004512}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -11077,7 +11089,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 562fafb4ea954ad4aa25954ed255b4d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyInfo: {fileID: 11400000, guid: 6096be9717edd7748a0c9503f08f9265, type: 2}
+  enemyInfo: {fileID: 11400000, guid: ce1c67fd74ce2dd47bd01f33fea5a5a1, type: 2}
+  enemyImage: {fileID: 1608831630}
   maxHealth: 25
   currHealth: 25
   refreshUI:
@@ -11431,7 +11444,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 6.189926, y: 19.563202}
+  m_AnchoredPosition: {x: 6.189926, y: 19.563217}
   m_SizeDelta: {x: 158.6, y: 28.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1773428102 &2075638152

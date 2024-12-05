@@ -229,7 +229,8 @@ public class CombatManager : MonoBehaviour
     public EnemyTemplate GetEnemyTemplate()
     {
         // TODO: Use location to sort enemy pools and later pull from said pools
-        return enemies[0]; // Test returning first EnemyTemplate - Capsule
+        int enemyPick = UnityEngine.Random.Range(0, enemies.Length);
+        return enemies[enemyPick]; // Test returning first EnemyTemplate - Capsule
     }
 
     // Loads and saves player data from PlayerProgressManager

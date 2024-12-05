@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class CombatData : MonoBehaviour
 {
     public EnemyTemplate enemyInfo;
+    public GameObject enemyImage;
     [HideInInspector] public int maxHealth = 7;
     [HideInInspector] public int currHealth = 7;
     private float strength = 10;
@@ -109,6 +110,7 @@ public class CombatData : MonoBehaviour
         currHealth = enemyInfo.health;
         strength = enemyInfo.strength;
         defense = enemyInfo.defense;
+        enemyImage.GetComponent<Image>().sprite = enemyInfo.icon;
         Debug.Log(maxHealth);
     }
 }
