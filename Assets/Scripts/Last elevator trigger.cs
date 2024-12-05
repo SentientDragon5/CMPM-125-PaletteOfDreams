@@ -9,7 +9,7 @@ public class Lastelevatortrigger : MonoBehaviour
     {
         CombatManager.Instance.OnExitBattle();
         // end game
-        GameObject g = new GameObject("DIED"); // Rename to WIN for win
+        GameObject g = new GameObject("WIN"); // Rename to WIN for win
         print("died, created object");
         DontDestroyOnLoad(g);
         SceneManager.LoadScene("MainMenu");
