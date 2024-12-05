@@ -19,11 +19,8 @@ public class OpenElevatorlevel2 : MonoBehaviour
     {
         if (keys == keysReq)
         {
-            if (PlayerCharacter.hasKey)
-            {
-                anim.enabled = true;
-                anim.Play("Elevator Door Animation");
-            }
+            anim.enabled = true;
+            anim.Play("Elevator Door Animation");
         }
     }
 }
