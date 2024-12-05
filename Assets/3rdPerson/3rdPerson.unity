@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 23084940}
   - component: {fileID: 23084939}
   m_Layer: 8
-  m_Name: Cube
+  m_Name: JumpPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1581,6 +1581,21 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0.10002518
       objectReference: {fileID: 0}
+    - target: {fileID: 1278520302596544578, guid: de74b0a40b978374587ba531837f7817,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 25.900002
+      objectReference: {fileID: 0}
+    - target: {fileID: 1635963277431550474, guid: de74b0a40b978374587ba531837f7817,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 101.49054
+      objectReference: {fileID: 0}
+    - target: {fileID: 1635963277431550474, guid: de74b0a40b978374587ba531837f7817,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 19.27856
+      objectReference: {fileID: 0}
     - target: {fileID: 2182191157452717302, guid: de74b0a40b978374587ba531837f7817,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -1701,6 +1716,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -9.799965
       objectReference: {fileID: 0}
+    - target: {fileID: 5121401839406777792, guid: de74b0a40b978374587ba531837f7817,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.0999794
+      objectReference: {fileID: 0}
     - target: {fileID: 5495786414657493023, guid: de74b0a40b978374587ba531837f7817,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -1710,6 +1730,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -20.483696
+      objectReference: {fileID: 0}
+    - target: {fileID: 5640471321527821325, guid: de74b0a40b978374587ba531837f7817,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 101.49051
+      objectReference: {fileID: 0}
+    - target: {fileID: 5640471321527821325, guid: de74b0a40b978374587ba531837f7817,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 19.278559
       objectReference: {fileID: 0}
     - target: {fileID: 5790704962067635748, guid: de74b0a40b978374587ba531837f7817,
         type: 3}
@@ -1771,10 +1801,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6316991167934901365, guid: de74b0a40b978374587ba531837f7817,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 49.82969
+      objectReference: {fileID: 0}
+    - target: {fileID: 6316991167934901365, guid: de74b0a40b978374587ba531837f7817,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -37.799984
+      objectReference: {fileID: 0}
+    - target: {fileID: 7102172988664529572, guid: de74b0a40b978374587ba531837f7817,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -3.170372
+      objectReference: {fileID: 0}
     - target: {fileID: 8481013041192730123, guid: de74b0a40b978374587ba531837f7817,
         type: 3}
       propertyPath: jumpSpeed
-      value: 15
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8542448484826326193, guid: de74b0a40b978374587ba531837f7817,
         type: 3}

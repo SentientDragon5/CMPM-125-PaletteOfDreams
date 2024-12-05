@@ -266,7 +266,6 @@ public class PlayerCharacter : MonoBehaviour
 
     public void JumpTo(JumpPoint jumpPoint)
     {
-        print("Jumping ");
         Animator.CrossFade("Jumping", 0.1f, 0);
         StartCoroutine(Jump(jumpPoint));
     }
@@ -300,7 +299,7 @@ public class PlayerCharacter : MonoBehaviour
         }
         transform.position = targetPos;
         inAir = false;
-        print("finshed jumping");
+        Animator.CrossFade("Walking", 0.1f, 0);
     }
 }
 
