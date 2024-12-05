@@ -20,9 +20,11 @@ public class PlayerProgressManager : MonoBehaviour
         {
             LoadGame();
             Debug.Log("Player progress was tried to be created twice.");
-            Destroy(this);
+            Destroy(gameObject);
             return;
         }
+        
+        transform.parent = null;
         DontDestroyOnLoad(gameObject);
 
         if (loadOnAwake)
@@ -83,7 +85,7 @@ public class PlayerProgressManager : MonoBehaviour
         save.defense = defense;
         Save(save, savePath);
 
-        Debug.Log("Save Succeeded!");
+        Debug.Log("Save Succeeded! " + worldName);
     }
     [ContextMenu("Load")]
     public void LoadGame()
@@ -102,7 +104,7 @@ public class PlayerProgressManager : MonoBehaviour
 
             onLoad.Invoke();
 
-            Debug.Log("Load Succeeded!");
+            Debug.Log("Load Succeeded! " + worldName);
         }
         else
         {

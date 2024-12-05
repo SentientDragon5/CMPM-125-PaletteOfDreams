@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class PlayerCharacter : MonoBehaviour
 {
@@ -82,6 +83,7 @@ public class PlayerCharacter : MonoBehaviour
     {
         PlayerProgressManager.instance.worldPosition = transform.position;
         PlayerProgressManager.instance.worldEuler = transform.eulerAngles;
+        PlayerProgressManager.instance.worldName = SceneManager.GetActiveScene().name;
     }
     void Load()
     {
@@ -233,6 +235,7 @@ public class PlayerCharacter : MonoBehaviour
             move = Vector3.ProjectOnPlane(move, hit.normal);
             transform.position = hit.point;
         }
+        //move *= moveSpeed;
         move = (velocity + moveInput * moveSpeed);
 
         characterController.transform.rotation *= Animator.deltaRotation;

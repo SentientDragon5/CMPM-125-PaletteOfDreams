@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
+using System.Linq;
+using UnityEngine.Events;
 
 public class CombatManager : MonoBehaviour
 {
@@ -23,12 +26,14 @@ public class CombatManager : MonoBehaviour
     }
     [SerializeField] private GameObject Player;
     [SerializeField] private GameObject Enemy;
-    [SerializeField] public int maxHealth = 12;
-    [SerializeField] public int currHealth = 10;
-    public float strength = 1;
-    public float defense = 1;
-    public float strengthMult = 1;
-    public float defenseMult = 1;
+    [HideInInspector] public int maxHealth = 22;
+    [HideInInspector] public int currHealth = 22;
+    [HideInInspector] public float strength = 8;
+    [HideInInspector] public float defense = 6;
+    [HideInInspector] public float strengthMult = 1;
+    [HideInInspector] public float defenseMult = 1;
+    public EnemyTemplate[] enemies; // Stores Enemy Scriptable Objects for testing
+    private string currLevel;
 
     private Dictionary<string, int> abilityUses = new Dictionary<string, int>()
     {
@@ -36,19 +41,43 @@ public class CombatManager : MonoBehaviour
         {"Blue", 4},
         {"Yellow", 4}
     };
-    [SerializeField] private TextMeshProUGUI redUsesText;
-    [SerializeField] private TextMeshProUGUI blueUsesText;
-    [SerializeField] private TextMeshProUGUI yellowUsesText;
 
+    public List<int> AbilityUses
+    {
+        get
+        {
+            int[] uses = new int[3];
+            uses[0] = (abilityUses["Red"]);
+            uses[1] = (abilityUses["Yellow"]);
+            uses[2] = (abilityUses["Blue"]);
+            return uses.ToList();
+        }
+        set
+        {
+            abilityUses["Red"] = value[0];
+            abilityUses["Yellow"] = value[1];
+            abilityUses["Blue"] = value[2];
+        }
+    }
+
+    public UnityEvent onRefreshUI;
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
+        onRefreshUI.Invoke();
 
         PlayerProgressManager.instance.onLoad.AddListener(LoadSaveData);
+    }
 
-        UpdateRedUsesUI();
-        UpdateBlueUsesUI();
-        UpdateYellowUsesUI();
+    public void OnEnemyTurn()
+    {
+        
+        onRefreshUI.Invoke();
+    }
+
+    void OnEndTurn()
+    {
+        
     }
 
     // Update is called once per frame
@@ -57,71 +86,87 @@ public class CombatManager : MonoBehaviour
         
     }
 
+    // Moves available to player
+    public void UseClear()
+    {
+        
+    }
+
+    // Player's Palette Ability (After 4+ turns, pulls dream info from CombatSystem.cs)
+    public void PaletteAttack(Dream dream)
+    {
+        print("Palette attack!");
+        if (dream.damage > 0)
+        {
+            Enemy.GetComponent<CombatData>().recieveDamage((dream.damage + strength) * strengthMult);
+        }
+        if (dream.weakenLength > 0)
+        {
+            Enemy.GetComponent<CombatData>().becomeWeak(dream.weaken, dream.weakenLength);
+        }
+    }
+
+    // Player's Red Ability (Damages enemy)
     public void RedAttack()
     {
         if (abilityUses["Red"] > 0)
         {
-            Enemy.GetComponent<CombatData>().recieveDamage(10 * strength * strengthMult);
+            Enemy.GetComponent<CombatData>().recieveDamage(strength * strengthMult);
             abilityUses["Red"]--;
         }
         else { // Reload Ability Uses back to 4
             abilityUses["Red"] = 4;
         }
-        UpdateRedUsesUI();
+        onRefreshUI.Invoke();
     }
 
+    // Player's Blue Ability (Weakens enemy)
     public void BlueAttack()
     {
         if (abilityUses["Blue"] > 0)
         {
+            Enemy.GetComponent<CombatData>().becomeWeak(.5f, 2);
             abilityUses["Blue"]--;
-            return; // Temporary
-            
         }
         else { // Reload Ability Uses back to 4
             abilityUses["Blue"] = 4;
         }
-        UpdateBlueUsesUI();
+        onRefreshUI.Invoke();
     }
 
+    // Player's Yellow Ability (Heals and potentially deals damage)
     public void YellowAttack()
     {
         if (abilityUses["Yellow"] > 0)
         {
-            Player.GetComponent<CombatData>().recoverHealth(3);
+            Player.GetComponent<CombatData>().recoverHealth((int)(maxHealth * .3f));
             if (Enemy.GetComponent<CombatData>().currHealth == Enemy.GetComponent<CombatData>().maxHealth || Enemy.GetComponent<CombatData>().currHealth <= 15)
             {
-                Enemy.GetComponent<CombatData>().recieveDamage(15 * strength * strengthMult);
+                Enemy.GetComponent<CombatData>().recieveDamage(strength * strengthMult);
             }
             abilityUses["Yellow"]--;
         }
         else { // Reload Ability Uses back to 4
             abilityUses["Yellow"] = 4;
         }
-        UpdateYellowUsesUI();
+        onRefreshUI.Invoke();
     }
 
-    private void UpdateRedUsesUI()
+    // Returns enemy template based on location
+    public EnemyTemplate GetEnemyTemplate()
     {
-        redUsesText.text = "Uses: " + abilityUses["Red"];
+        // TODO: Use location to sort enemy pools and later pull from said pools
+        return enemies[0]; // Test returning first EnemyTemplate - Capsule
     }
 
-    private void UpdateBlueUsesUI()
-    {
-        blueUsesText.text = "Uses: " + abilityUses["Blue"];
-    }
-
-    private void UpdateYellowUsesUI()
-    {
-        yellowUsesText.text = "Uses: " + abilityUses["Yellow"];
-    }
-
+    // Loads and saves player data from PlayerProgressManager
     public void LoadSaveData()
     {
         maxHealth = PlayerProgressManager.instance.maxHp;
         currHealth = PlayerProgressManager.instance.hp;
         strength = PlayerProgressManager.instance.strength;
         defense = PlayerProgressManager.instance.defense;
+        currLevel = PlayerProgressManager.instance.worldName; // Way to pull location for enemy pool
     }
     public void OnExitBattle()
     {
@@ -130,14 +175,4 @@ public class CombatManager : MonoBehaviour
         PlayerProgressManager.instance.strength = strength;
         PlayerProgressManager.instance.defense = defense;
     }
-
-    /*public void updateMaxHealth(int pMaxHealth) { maxHealth = pMaxHealth; }
-    public void updateCurrHealth(int pCurrHealth) { currHealth = pCurrHealth; }
-    public void updateStrength(float pStrength) { strength = pStrength; }
-    public void updateDefense(float pDefense) { defense = pDefense; }
-    public void updateStrengthMult(float pStrengthMult) { strengthMult = pStrengthMult; }
-    public void updateDefenseMult(float pDefenseMult) { defenseMult = pDefenseMult; }
-    */
-
-
 }

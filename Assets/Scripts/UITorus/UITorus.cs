@@ -97,8 +97,10 @@ namespace UnityEngine.UI.Extensions
             }
         }
 
-        [SerializeField] private float innerRadius = 25f;
-        [SerializeField] private float outerRadius = 50f;
+        [SerializeField] public float innerRadius = 0.25f;
+        [SerializeField] public float outerRadius = 0.5f;
+        public float InnerRadius { get => innerRadius * Mathf.Min(rectTransform.rect.width, rectTransform.rect.height); }
+        public float OuterRadius { get => outerRadius * Mathf.Min(rectTransform.rect.width, rectTransform.rect.height); }
         [SerializeField] private int segments = 64;
         [SerializeField] private int tubeSegments = 16;
         [Range(0, 1)] [SerializeField] private float fillAmount = 1f; // Radial fill amount
@@ -108,8 +110,8 @@ namespace UnityEngine.UI.Extensions
         {
             vh.Clear();
 
-            float torusRadius = (outerRadius - innerRadius) / 2f;
-            float centerRadius = torusRadius + innerRadius;
+            float torusRadius = (OuterRadius - InnerRadius) / 2f;
+            float centerRadius = torusRadius + InnerRadius;
 
             // Calculate the angle for the fill amount
             float fillAngle = fillAmount * 2f * Mathf.PI;

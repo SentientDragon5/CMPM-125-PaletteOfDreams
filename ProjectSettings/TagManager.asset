@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - PlayerTurn
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -15,12 +16,12 @@ TagManager:
   - Enviroment
   - Characters
   - Interactables
-  - 
-  - 
+  - Player
+  - Enemies
   - 
   - HiddenCollisions
   - 
-  - 
+  - UIModels
   - 
   - 
   - 
