@@ -15,6 +15,7 @@ public class PlayerCharacter : MonoBehaviour
     {
         Debug.Assert(TryGetComponent(out Animator));
         Debug.Assert(TryGetComponent(out characterController));
+        playerInput = GameObject.Find("Input").GetComponent<PlayerInput>();
     }
 
     #region aliases
@@ -47,7 +48,7 @@ public class PlayerCharacter : MonoBehaviour
     [SerializeField] private float lookSmoothRate = 5f;
     float maxDot = 0.2f;
     [SerializeField] private AnimationCurve lookCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
-    public LayerMask interactableLayers = 8<<1;
+    public LayerMask interactableLayers = 8 << 1;
 
     [Header("Current Nearby Interactables")]
     [SerializeField] private List<Interactable> interactionQueue = new List<Interactable>();
@@ -91,25 +92,31 @@ public class PlayerCharacter : MonoBehaviour
         transform.eulerAngles = PlayerProgressManager.instance.worldEuler;
     }
 
-    private void OnEnable()
-    {
-        GetAct("Interact").performed += _ => Interact();
-    }
+    // private void OnEnable()
+    // {
+    //     playerInput = GameObject.Find("Input").GetComponent<PlayerInput>();
+    //     GetAct("Interact").performed += _ => Interact();
+    // }
 
-    public void OnDisable()
-    {
-        if (playerInput != null)
-        {
-            GetAct("Interact").performed -= _ => Interact();
-        }
-    }
+    // [ContextMenu("CHECK")]
+    // void Check()
+    // {
+    //     Debug.Log(GetAct("Interact"));
+    // }
+    // public void OnDisable()
+    // {
+    //     if (playerInput != null)
+    //     {
+    //         GetAct("Interact").performed -= _ => Interact();
+    //     }
+    // }
 
     /// <summary>
     /// Call this to update the interaction Queue.
     /// </summary>
     public void CheckForInteractables()
     {
-        if (gameObject == null) return; 
+        if (gameObject == null) return;
         Collider[] colliders = Physics.OverlapSphere(transform.position + offset, interactionRadius, interactableLayers);
         interactionQueue.Clear();
         foreach (Collider collider in colliders)
@@ -130,7 +137,7 @@ public class PlayerCharacter : MonoBehaviour
     /// </summary>
     public void Interact()
     {
-        if (gameObject == null) return; 
+        if (gameObject == null) return;
         CheckForInteractables();
 
         if (interactionQueue.Count > 0)
@@ -153,7 +160,7 @@ public class PlayerCharacter : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(offset + transform.position, interactionRadius);
     }
-    
+
     private void OnAnimatorIK(int layerIndex)
     {
         CheckForInteractables();
@@ -204,7 +211,16 @@ public class PlayerCharacter : MonoBehaviour
         m.y = Mathf.Clamp(m.y, -1, 1);
 
         if (!inAir)
+        {
+
             Move(m);
+
+            if (GetAct("Interact").triggered)
+            {
+                Interact();
+            }
+        }
+
     }
 
     public void Move(Vector2 input)
@@ -228,11 +244,11 @@ public class PlayerCharacter : MonoBehaviour
         UpdateAnimatior(move, GetPressed("Sprint"));
         transform.Rotate(0, TurnAmount * turnSpeed * Time.deltaTime, 0);
     }
-public float sprintMultiplier = 1.5f;
+    public float sprintMultiplier = 1.5f;
     private void OnAnimatorMove()
     {
-        if(inAir) return;
-        
+        if (inAir) return;
+
         Vector3 move = Animator.deltaPosition * moveSpeed;
 
         if (GroundCast(1f, out RaycastHit hit))
@@ -258,8 +274,8 @@ public float sprintMultiplier = 1.5f;
         float animForward = run && ForwardAmount > 0.1f ? 2 : ForwardAmount;
         Animator.SetFloat("Forward", animForward, 0.1f, Time.deltaTime);
         //Animator.SetFloat("Right", RightAmount, 0.1f, Time.deltaTime);
-        Animator.SetFloat("Turn", TurnAmount, 0.1f, Time.deltaTime);
-        Animator.SetBool("OnGround", true);
+        //Animator.SetFloat("Turn", TurnAmount, 0.1f, Time.deltaTime);
+        //Animator.SetBool("OnGround", true);
 
         //if (Grounded && move.magnitude > 0.1f && !(IsAnim("Grounded") || IsAnim("Crouching") || IsAnim("Strafing"))) Animator.CrossFade("Grounded", 0f, 0);
     }
@@ -271,7 +287,7 @@ public float sprintMultiplier = 1.5f;
         Animator.CrossFade("Jumping", 0.1f, 0);
         StartCoroutine(Jump(jumpPoint));
     }
-    
+
     public AnimationCurve jumpCurve; // Assign your curve in the inspector
     public float jumpSpeed = 5f; // Adjust jump speed as needed
 
@@ -285,7 +301,7 @@ public float sprintMultiplier = 1.5f;
 
         print(startPos + " " + targetPos);
         float t = 0;
-        while (t < 1f) 
+        while (t < 1f)
         {
             timeElapsed += Time.deltaTime;
             t = timeElapsed * jumpSpeed / distance; // Calculate t based on speed
