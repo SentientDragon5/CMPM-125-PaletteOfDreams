@@ -104,7 +104,7 @@ public class BattleInteractable : Interactable
 
     private void OnCollisionEnter(Collision collision)
     {
-        print(collision.gameObject.name);
+        print("COllision "+collision.gameObject.name);
         if(collision.gameObject.TryGetComponent(out PlayerCharacter interactor))
         {
             Interact(interactor);
@@ -112,6 +112,7 @@ public class BattleInteractable : Interactable
     }
     private void OnTriggerEnter(Collider collision)
     {
+        print("Trigger "+collision.gameObject.name);
         if(collision.gameObject.TryGetComponent(out PlayerCharacter interactor))
         {
             Interact(interactor);

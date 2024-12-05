@@ -11,6 +11,7 @@ public class HUDHealthBar : MonoBehaviour
         float playerhp = PlayerProgressManager.instance.hp;
         float playermhp = PlayerProgressManager.instance.maxHp;
         playerHealthBar.fillAmount = playerhp/playermhp;
+        playerHealthBar.SetAllDirty();
     }
 
 }
