@@ -10,4 +10,5 @@ public class EnemyTemplate : ScriptableObject
     public float strength;
     public float defense;
     public MoveTemplate[] moves;
+    public Sprite icon;
 }

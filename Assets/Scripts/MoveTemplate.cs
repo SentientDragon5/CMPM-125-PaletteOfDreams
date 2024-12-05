@@ -6,5 +6,9 @@ using UnityEngine;
 public class MoveTemplate : ScriptableObject
 {
     public string moveName;
+    public string description;
     public int damage;
+    public float weaken;
+    public int weakenLength;
+    public int heal;
 }
