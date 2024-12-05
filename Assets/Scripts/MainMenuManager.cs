@@ -11,6 +11,8 @@ public class MainMenuManager : MonoBehaviour
     public int current_menu;
 
     public int progress_menu;
+    public int death_menu = 3;
+    public int success_menu = 4;
 
     public string savePath = "/save0.sv";
 
@@ -33,10 +35,35 @@ public class MainMenuManager : MonoBehaviour
 
     private void Start()
     {
+        var died = GameObject.Find("DIED");
+        if (died != null)
+        {
+            print("Dead, opening end menu");
+            Destroy(died);
+            OpenMenu(death_menu);
+        }
+        
+        var win = GameObject.Find("WIN");
+        if (died != null)
+        {
+            print("Win, opening end menu");
+            Destroy(win);
+            OpenMenu(success_menu);
+        }
+        
         if (!FileExists(savePath))
         {
             print("Not ok to continue!");
             continueButton.interactable = false;
+        }
+        else
+        {
+            PlayerProgressManager.instance.LoadGame();
+            if (PlayerProgressManager.instance.worldName == "")
+            {
+                print("Loaded, but Not ok to continue!");
+                continueButton.interactable = false;
+            }
         }
     }
 

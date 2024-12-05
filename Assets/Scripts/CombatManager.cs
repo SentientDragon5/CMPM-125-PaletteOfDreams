@@ -63,7 +63,6 @@ public class CombatManager : MonoBehaviour
     public UnityEvent onRefreshUI;
     private void Start()
     {
-        DontDestroyOnLoad(gameObject);
         onRefreshUI.Invoke();
 
         PlayerProgressManager.instance.onLoad.AddListener(LoadSaveData);

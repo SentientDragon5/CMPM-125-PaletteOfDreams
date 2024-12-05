@@ -104,7 +104,12 @@ public class CombatSystem : MonoBehaviour
         if (enemy.GetComponent<CombatData>().currHealth <= 0)
         {
             CombatManager.Instance.OnExitBattle();
-            SceneManager.LoadScene(PlayerProgressManager.instance.worldName);
+            // end game
+            GameObject g = new GameObject("DIED"); // Rename to WIN for win
+            print("died, created object");
+            DontDestroyOnLoad(g);
+            SceneManager.LoadScene("MainMenu");
+            // done
             endCheck = true;
         }
 
