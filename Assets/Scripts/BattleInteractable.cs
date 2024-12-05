@@ -16,6 +16,10 @@ public enum AIState
 
 public class BattleInteractable : Interactable
 {
+    [Header("SET ID TO BE UNIQUE")]
+    public int myId = -1;
+    
+    
     private NavMeshAgent agent;
     [Header("State")]
     [SerializeField] private AIState state;
@@ -68,10 +72,11 @@ public class BattleInteractable : Interactable
 
     
     public string sceneName = "Combat";
-    public int myId = -1;
 
     private void Start()
     {
+        if (myId <= 0)
+            Debug.LogError("ID for enemy is likely not assigned!");
         agent = GetComponent<NavMeshAgent>();
         if (PlayerProgressManager.instance.enemiesDefeated.Contains(myId))
         {
@@ -95,6 +100,7 @@ public class BattleInteractable : Interactable
 
     private void OnCollisionEnter(Collision collision)
     {
+        print(collision.gameObject.name);
         if(collision.gameObject.TryGetComponent(out PlayerCharacter interactor))
         {
             Interact(interactor);
