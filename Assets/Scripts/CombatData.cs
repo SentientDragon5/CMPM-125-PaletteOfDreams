@@ -49,33 +49,39 @@ public class CombatData : MonoBehaviour
         return ((move.damage + strength) * strengthMult);
     }
 
-    public void recieveDamage(float damage)
+    public int recieveDamage(float damage)
     {
-        currHealth -= (int)((damage/2) - (defense/4));
+        int dmg = (int)((damage / 2) - (defense / 4));
+        currHealth -= dmg;
         if (currHealth < 0)
         {
             currHealth = 0;
         }
         refreshUI.Invoke();
+        return dmg;
     }
 
-    public void recoverHealth(int health)
+    public int recoverHealth(int health)
     {
+        int currCheck = currHealth;
         currHealth += health;
         if (currHealth > maxHealth)
         {
             currHealth = maxHealth;
+            health = maxHealth - currCheck;
         }
         refreshUI.Invoke();
+        return health;
     }
 
-    public void becomeWeak(float wMult, int turnCount)
+    public int becomeWeak(float wMult, int turnCount)
     {
         if (turnsWeakened == 0)
         {
             strengthMult -= wMult;
         }
         turnsWeakened += turnCount;
+        return turnsWeakened;
     }
 
     public void UpdateTurnCounts()

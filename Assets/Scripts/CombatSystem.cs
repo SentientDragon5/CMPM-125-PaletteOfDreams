@@ -8,6 +8,7 @@ public class CombatSystem : MonoBehaviour
 {
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject enemy;
+    [HideInInspector] public bool flightActive = false;
     private GameObject[] playerActs;
     // Start is called before the first frame update
     void Start()
@@ -42,6 +43,14 @@ public class CombatSystem : MonoBehaviour
     // Recieves input and dream from CombatUIManager based on player selection, then calls CombatManager
     public IEnumerator playerAction(int attackID, Dream dream)
     {
+        if (flightActive)
+        {
+            CombatManager.Instance.FlightMode();
+            onPlayerTurn.Invoke("The winds heal for 2 Health and deal 4 Damage");
+            confirmed = false;
+            // wait until confirmed
+            yield return new WaitUntil(() => confirmed);
+        }
         for (int i = 0; i < playerActs.Length; i++)
         {
             playerActs[i].SetActive(false);
@@ -49,24 +58,34 @@ public class CombatSystem : MonoBehaviour
         switch (attackID)
         {
             case 0:
-                CombatManager.Instance.RedAttack();
+                string msg = CombatManager.Instance.RedAttack();
+                onPlayerTurn.Invoke(msg);
                 break;
             case 2:// yellow is 1, blue is 2
-                CombatManager.Instance.BlueAttack();
+                msg = CombatManager.Instance.BlueAttack();
+                onPlayerTurn.Invoke(msg);
                 break;
             case 1:
-                CombatManager.Instance.YellowAttack();
+                msg = CombatManager.Instance.YellowAttack();
+                onPlayerTurn.Invoke(msg);
                 break;
             case 3:
-                CombatManager.Instance.PaletteAttack(dream);
+                onPlayerTurn.Invoke(dream.description);
+                confirmed = false;
+                // wait until confirmed
+                yield return new WaitUntil(() => confirmed);
+                msg = CombatManager.Instance.PaletteAttack(dream);
+                onPlayerTurn.Invoke(msg);
                 break;
             default:
                 Debug.Log("Not Implemented, or error");
                 break;
         }
-        
+        if (dream.name == "Flight")
+        {
+            flightActive = true;
+        }
         confirmed = false;
-        onPlayerTurn.Invoke("You did " + "<dmg> "+ " damage");
         // wait until confirmed
         yield return new WaitUntil(()=>confirmed);
         switchTurn(true);
@@ -81,8 +100,8 @@ public class CombatSystem : MonoBehaviour
     // Controls enemy actions (WIP - Will work on implementing variety of moves)
     public IEnumerator enemyAction()
     {
-        var dmg = enemy.GetComponent<CombatData>().dealDamage();
-        player.GetComponent<CombatData>().recieveDamage(dmg);
+        var enemyAttack = enemy.GetComponent<CombatData>().dealDamage();
+        int dmg = player.GetComponent<CombatData>().recieveDamage(enemyAttack);
 
         confirmed = false;
         onEnemyTurn.Invoke("You took " + dmg +" damage");
@@ -116,6 +135,7 @@ public class CombatSystem : MonoBehaviour
         // Switches Combatant Turn
         if (enemyTurn && endCheck == false)
         {
+            CombatManager.Instance.OnEndTurn();
             StartCoroutine(enemyAction());
         }
         //  On player's turn, a new "round" or combat begins, updating turn counters for effects

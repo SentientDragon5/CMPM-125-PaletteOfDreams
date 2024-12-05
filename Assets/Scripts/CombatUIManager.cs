@@ -10,9 +10,12 @@ using UnityEngine.UI.Extensions;
 public class Dream
 {
     public string name = "default"; // Gave dream default variables
+    public string description = "default";
     public int damage = 0;
     public float weaken = 0;
     public int weakenLength = 0;
+    public int heal = 0;
+    public float selfWeak = 0;
 }
 public class CombatUIManager : MonoBehaviour
 {
@@ -181,7 +184,12 @@ public class CombatUIManager : MonoBehaviour
             // all same
             dream = new Dream();
             dream.name = "None";
-            
+            dream.description = "None";
+            dream.damage = 0;
+            dream.weaken = 0;
+            dream.weakenLength = 0;
+            dream.heal = 0;
+            dream.selfWeak = 0;
             return dream;
         }
 
@@ -191,7 +199,12 @@ public class CombatUIManager : MonoBehaviour
             // Volcano
             dream = new Dream();
             dream.name = "Volcano";
-            
+            dream.description = "Deal 25 damage.";
+            dream.damage = 25;
+            dream.weaken = 0;
+            dream.weakenLength = 0;
+            dream.heal = 0;
+            dream.selfWeak = 0;
             return dream;
         }
         if (c.y >= 4)
@@ -199,7 +212,12 @@ public class CombatUIManager : MonoBehaviour
             // Thrill ride
             dream = new Dream();
             dream.name = "Thrill Ride";
-            
+            dream.description = "If you’re full Health, deal 35 Damage. Else, heal 10 Health.";
+            dream.damage = 0;
+            dream.weaken = 0;
+            dream.weakenLength = 0;
+            dream.heal = 0;
+            dream.selfWeak = 0;
             return dream;
         }
         if (c.z >= 4)
@@ -207,7 +225,12 @@ public class CombatUIManager : MonoBehaviour
             // Lucidity
             dream = new Dream();
             dream.name = "Lucidity";
-            
+            dream.description = "Weaken the enemy for 99 turns. Deal 10 Damage";
+            dream.weaken = .5f;
+            dream.weakenLength = 99;
+            dream.damage = 0;
+            dream.heal = 0;
+            dream.selfWeak = 0;
             return dream;
         }
         
@@ -216,7 +239,12 @@ public class CombatUIManager : MonoBehaviour
             // Break up
             dream = new Dream();
             dream.name = "Break up";
-            
+            dream.description = "Heal up to half of your max Health.";
+            dream.damage = 0;
+            dream.weaken = 0;
+            dream.weakenLength = 0;
+            dream.heal = 0;
+            dream.selfWeak = 0;
             return dream;
         }
         if (c.y >= 2  && c.x >= 2)
@@ -224,7 +252,12 @@ public class CombatUIManager : MonoBehaviour
             // Whiplash
             dream = new Dream();
             dream.name = "Whiplash";
-            
+            dream.description = "Deal Damage equal to twice your missing Health.";
+            dream.damage = 0;
+            dream.weaken = 0;
+            dream.weakenLength = 0;
+            dream.heal = 0;
+            dream.selfWeak = 0;
             return dream;
         }
         if (c.z >= 2  && c.y >= 2)
@@ -232,7 +265,12 @@ public class CombatUIManager : MonoBehaviour
             // Relaxation 
             dream = new Dream();
             dream.name = "Relaxation";
-            
+            dream.description = "Heal 15 Health and deal 20 Damage. Weaken yourself for 2 turns.";
+            dream.damage = 0;
+            dream.weaken = 0;
+            dream.heal = 15;
+            dream.weakenLength = 2;
+            dream.selfWeak = .5f;
             return dream;
         }
         
@@ -241,16 +279,25 @@ public class CombatUIManager : MonoBehaviour
             // Bottled rage
             dream = new Dream();
             dream.name = "Bottled Rage";
-            dream.damage = 10;
-            
+            dream.description = "Deal 10 Damage for each turn of combat.";
+            dream.damage = 0;
+            dream.weaken = 0;
+            dream.weakenLength = 0;
+            dream.heal = 0;
+            dream.selfWeak = 0;
             return dream;
         }
         if (c.y > c.x && c.y > c.z)
         {
-            //  Vacacion
+            //  Vacation
             dream = new Dream();
             dream.name = "Vacation";
-            
+            dream.description = "Deal Damage equal to your current Health.";
+            dream.damage = 0;
+            dream.weaken = 0;
+            dream.weakenLength = 0;
+            dream.heal = 0;
+            dream.selfWeak = 0;
             return dream;
         }
         if (c.y > c.x && c.z > c.y)
@@ -258,21 +305,33 @@ public class CombatUIManager : MonoBehaviour
             // Flight
             dream = new Dream();
             dream.name = "Flight";
-            
+            dream.description = "Heal for 2 Health and deal 4 Damage at the end of each turn.";
+            dream.damage = 0;
+            dream.weaken = 0;
+            dream.weakenLength = 0;
+            dream.heal = 0;
+            dream.selfWeak = 0;
             return dream;
         }
         
         // none
-        
         dream = new Dream();
         dream.name = "None";
-            
+        dream.description = "None";
+        dream.damage = 0;
+        dream.weaken = 0;
+        dream.weakenLength = 0;
+        dream.heal = 0;
+        dream.selfWeak = 0;
         return dream;
     }
 
     public void AddColor(int colorIndex)
     {
-        if(Uses[colorIndex] <= 0) return;
+        if (Uses[colorIndex] <= 0)
+        {
+            combatSystem.StartCoroutine(combatSystem.playerAction(colorIndex, dream));
+        }
         if (inputColors.Count < maxSlots)
         {
             inputColors.Add(((PColor)colorIndex));
