@@ -17,7 +17,7 @@ public class OpenElevatorlevel2 : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (keys == keysReq)
+        if (keys >= keysReq)
         {
             anim.enabled = true;
             anim.Play("Elevator Door Animation");
