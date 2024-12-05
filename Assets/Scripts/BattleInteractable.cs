@@ -210,7 +210,7 @@ public class BattleInteractable : Interactable
             }
 
             //TODO: fix the raycast. it is somehow looking through walls. check the raycasthit
-            if (distance < lookRadius && dot > lookDotMin && lineOfSight)
+            if (distance < lookRadius && dot > lookDotMin)// && lineOfSight)
                 o.Add(t);
         }
         if(near.Count<1 && gizmos)
@@ -219,6 +219,12 @@ public class BattleInteractable : Interactable
             Gizmos.DrawWireSphere(transform.position + Eye_ls, lookRadius);
             Gizmos.DrawWireSphere(transform.position + Eye_ls, chaseRadius);
 
+        }
+
+        if (gizmos)
+        {
+            
+            Gizmos.color = Color.yellow;
             Gizmos.DrawRay(transform.position + Eye_ls, transform.forward * lookRadius);
             float angle = Mathf.Acos(lookDotMin)*Mathf.Rad2Deg;
             Gizmos.DrawRay(transform.position + Eye_ls, Quaternion.AngleAxis(angle, transform.up) * transform.forward * lookRadius);
