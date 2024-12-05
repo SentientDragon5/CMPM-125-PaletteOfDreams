@@ -324,6 +324,17 @@
                     "isPartOfComposite": false
                 },
                 {
+                    "name": "",
+                    "id": "67d6d51f-c891-435a-8231-af049868dade",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
                     "name": "1D Axis",
                     "id": "1cabf030-273b-4f56-8bdd-05de77516cc1",
                     "path": "1DAxis",
