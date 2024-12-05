@@ -4,6 +4,13 @@ Art by Carlos and Logan
 Concept art by Tyler
 Combat programming by Jason, Tyler, and Logan
 UI design by Logan
+3D level design by Carlos
+
+Assets from:
+
+Fantasy Skybox free by Render Night https://assetstore.unity.com/packages/2d/textures-materials/sky/fantasy-skybox-free-18353
+
+50 Free PBR Materials by CaptainCatSparrow https://assetstore.unity.com/packages/2d/textures-materials/50-free-pbr-materials-242760
 
 https://pixabay.com/users/artifystudio-36008874/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=205803
 Music by <a href="https://pixabay.com/users/universfield-28281460/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=175958">Universfield</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=175958">Pixabay</a>
