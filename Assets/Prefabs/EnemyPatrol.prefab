@@ -223,6 +223,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3277313839c4a4faa98da8e0fd04479b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraToFace: {fileID: 0}
+  wobbleEnabled: 1
+  wobbleAmount: 5
+  wobbleSpeed: 2
 --- !u!1 &6248278916799178571
 GameObject:
   m_ObjectHideFlags: 0
@@ -266,6 +270,7 @@ GameObject:
   - component: {fileID: 6603478346153149215}
   - component: {fileID: 4774344100647193726}
   - component: {fileID: 249843619423608248}
+  - component: {fileID: 1227031682223016016}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -304,6 +309,7 @@ MonoBehaviour:
   isActive: 1
   lookAt: 1
   myId: 2
+  template: {fileID: 0}
   state: 1
   goalState: 1
   targets: []
@@ -371,6 +377,27 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!135 &1227031682223016016
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7121861286687421488}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7376344824675134895
 GameObject:
   m_ObjectHideFlags: 0
