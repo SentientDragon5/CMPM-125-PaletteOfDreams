@@ -6,17 +6,6 @@ public class BPMScaler : MonoBehaviour
 {
     public AnimationCurve animationCurve;
     public float bpm = 120f;
-    private void OnValidate()
-    {
-        BPMAnimator.g_animationCurve = animationCurve;
-        BPMAnimator.g_bpm = bpm;
-    }
-
-    private void Awake()
-    {
-        animationCurve = BPMAnimator.g_animationCurve;
-        bpm = BPMAnimator.g_bpm;
-    }
 
     public float minValue = 0f;
     public float maxValue = 1f;
