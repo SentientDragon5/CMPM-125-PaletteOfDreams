@@ -117,19 +117,29 @@ public class CombatSystem : MonoBehaviour
         // Battle end conditions based on health
         if (player.GetComponent<CombatData>().currHealth <= 0)
         {
-            SceneManager.LoadScene(PlayerProgressManager.instance.worldName);
+            CombatManager.Instance.OnExitBattle();
+            // end game
+            GameObject g = new GameObject("DIED");
+            print("died, created object");
+            DontDestroyOnLoad(g);
+            SceneManager.LoadScene("MainMenu");
+            // done
             endCheck = true;
+            /*SceneManager.LoadScene(PlayerProgressManager.instance.worldName);
+            endCheck = true;*/
         }
         if (enemy.GetComponent<CombatData>().currHealth <= 0)
         {
-            CombatManager.Instance.OnExitBattle();
+            SceneManager.LoadScene(PlayerProgressManager.instance.worldName);
+            endCheck = true;
+            /*CombatManager.Instance.OnExitBattle();
             // end game
             GameObject g = new GameObject("DIED"); // Rename to WIN for win
             print("died, created object");
             DontDestroyOnLoad(g);
             SceneManager.LoadScene("MainMenu");
             // done
-            endCheck = true;
+            endCheck = true;*/
         }
 
         // Switches Combatant Turn
