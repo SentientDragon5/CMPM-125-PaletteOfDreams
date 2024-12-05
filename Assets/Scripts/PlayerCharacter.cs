@@ -96,7 +96,7 @@ public class PlayerCharacter : MonoBehaviour
         GetAct("Interact").performed += _ => Interact();
     }
 
-    private void OnDisable()
+    public void OnDisable()
     {
         if (playerInput != null)
         {
@@ -109,6 +109,7 @@ public class PlayerCharacter : MonoBehaviour
     /// </summary>
     public void CheckForInteractables()
     {
+        if (gameObject == null) return; 
         Collider[] colliders = Physics.OverlapSphere(transform.position + offset, interactionRadius, interactableLayers);
         interactionQueue.Clear();
         foreach (Collider collider in colliders)
@@ -129,6 +130,7 @@ public class PlayerCharacter : MonoBehaviour
     /// </summary>
     public void Interact()
     {
+        if (gameObject == null) return; 
         CheckForInteractables();
 
         if (interactionQueue.Count > 0)

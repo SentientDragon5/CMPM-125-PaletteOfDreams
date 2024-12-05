@@ -16,9 +16,15 @@ public class InGameMenuManager : MonoBehaviour
 
     public void OpenMenu(int index)
     {
-        menus[current_menu].enabled = false;
+        if(menus[current_menu] != null)
+            menus[current_menu].enabled = false;
+        else
+            Debug.LogWarning("Canvas was Null at "+ current_menu);
         current_menu = index;
-        menus[current_menu].enabled = true;
+        if(menus[current_menu] != null)
+            menus[current_menu].enabled = true;
+        else
+            Debug.LogWarning("Canvas was Null at "+ current_menu);
     }
 
     public UnityEngine.UI.Extensions.UITorus progressBar;

@@ -99,6 +99,7 @@ public class BattleInteractable : Interactable
         
         GameObject g = new GameObject("Enemy"+template.enemyName);
         DontDestroyOnLoad(g);
+        interactor.OnDisable();
         SceneManager.LoadScene(sceneName);
     }
 
