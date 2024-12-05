@@ -20,7 +20,7 @@ public class BattleInteractable : Interactable
     public int myId = -1;
 
     public EnemyTemplate template;
-    
+
     private NavMeshAgent agent;
     [Header("State")]
     [SerializeField] private AIState state;
@@ -45,7 +45,7 @@ public class BattleInteractable : Interactable
         }
         set => targetActor = value;
     }
-    
+
     public LayerMask enviromentLayer;
     public LayerMask characterLayer;
 
@@ -71,7 +71,7 @@ public class BattleInteractable : Interactable
     public Vector3 GoalPosition { get => goalPosition; set => goalPosition = value; }
     public Quaternion GoalRotation { get => goalRotation; set => goalRotation = value; }
 
-    
+
     public string sceneName = "Combat";
 
     private void Start()
@@ -96,24 +96,25 @@ public class BattleInteractable : Interactable
         PlayerProgressManager.instance.worldName = SceneManager.GetActiveScene().name;
         PlayerProgressManager.instance.enemiesDefeated.Add(myId);
 
-        
-        GameObject g = new GameObject("Enemy"+template.enemyName);
+
+        GameObject g = new GameObject("Enemy" + template.enemyName);
         DontDestroyOnLoad(g);
+        // interactor.OnDisable();
         SceneManager.LoadScene(sceneName);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        print("COllision "+collision.gameObject.name);
-        if(collision.gameObject.TryGetComponent(out PlayerCharacter interactor))
+        print("COllision " + collision.gameObject.name);
+        if (collision.gameObject.TryGetComponent(out PlayerCharacter interactor))
         {
             Interact(interactor);
         }
     }
     private void OnTriggerEnter(Collider collision)
     {
-        print("Trigger "+collision.gameObject.name);
-        if(collision.gameObject.TryGetComponent(out PlayerCharacter interactor))
+        print("Trigger " + collision.gameObject.name);
+        if (collision.gameObject.TryGetComponent(out PlayerCharacter interactor))
         {
             Interact(interactor);
         }
@@ -123,7 +124,7 @@ public class BattleInteractable : Interactable
     {
         // should be in range and the trigger will enter.
     }
-    
+
     private void FixedUpdate()
     {
         targets = FindVisibleEnemies();
@@ -194,7 +195,7 @@ public class BattleInteractable : Interactable
         foreach (Transform t in near)
         {
             float distance = Vector3.Distance(t.transform.position, transform.position + Eye_ls);
-            float dot = Vector3.Dot((t.transform.position - (transform.position+ Eye_ls)).normalized, transform.forward);
+            float dot = Vector3.Dot((t.transform.position - (transform.position + Eye_ls)).normalized, transform.forward);
             Ray ray = new Ray(transform.position + Eye_ls, ((t.transform.position + t.transform.up) - (transform.position + Eye_ls)).normalized * lookRadius);
             bool lineOfSight = Physics.Raycast(ray, lookRadius);
 
@@ -213,7 +214,7 @@ public class BattleInteractable : Interactable
             if (distance < lookRadius && dot > lookDotMin)// && lineOfSight)
                 o.Add(t);
         }
-        if(near.Count<1 && gizmos)
+        if (near.Count < 1 && gizmos)
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position + Eye_ls, lookRadius);
@@ -223,10 +224,10 @@ public class BattleInteractable : Interactable
 
         if (gizmos)
         {
-            
+
             Gizmos.color = Color.yellow;
             Gizmos.DrawRay(transform.position + Eye_ls, transform.forward * lookRadius);
-            float angle = Mathf.Acos(lookDotMin)*Mathf.Rad2Deg;
+            float angle = Mathf.Acos(lookDotMin) * Mathf.Rad2Deg;
             Gizmos.DrawRay(transform.position + Eye_ls, Quaternion.AngleAxis(angle, transform.up) * transform.forward * lookRadius);
             Gizmos.DrawRay(transform.position + Eye_ls, Quaternion.AngleAxis(-angle, transform.up) * transform.forward * lookRadius);
             Gizmos.DrawRay(transform.position + Eye_ls, Quaternion.AngleAxis(angle, transform.right) * transform.forward * lookRadius);

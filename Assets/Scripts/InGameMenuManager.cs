@@ -16,9 +16,15 @@ public class InGameMenuManager : MonoBehaviour
 
     public void OpenMenu(int index)
     {
-        menus[current_menu].enabled = false;
+        if (menus[current_menu] != null)
+            menus[current_menu].enabled = false;
+        else
+            Debug.LogWarning("Canvas was Null at " + current_menu);
         current_menu = index;
-        menus[current_menu].enabled = true;
+        if (menus[current_menu] != null)
+            menus[current_menu].enabled = true;
+        else
+            Debug.LogWarning("Canvas was Null at " + current_menu);
     }
 
     public UnityEngine.UI.Extensions.UITorus progressBar;
@@ -30,6 +36,8 @@ public class InGameMenuManager : MonoBehaviour
         menus[gameMenu].enabled = true;
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Locked;
+
+        playerInput = GameObject.Find("Input").GetComponent<PlayerInput>();
     }
 
     public void LoadSceneName(string s) => StartCoroutine(LoadAsync(s));
@@ -65,18 +73,23 @@ public class InGameMenuManager : MonoBehaviour
         }
     }
 
-    private void OnEnable()
+    void Update()
     {
-        GetAct("Pause").performed += _ => TogglePause();
+        if (GetAct("Pause").triggered) TogglePause();
     }
 
-    private void OnDisable()
-    {
-        if (playerInput != null)
-        {
-            GetAct("Pause").performed -= _ => TogglePause();
-        }
-    }
+    // private void OnEnable()
+    // {
+    //     GetAct("Pause").performed += _ => TogglePause();
+    // }
+
+    // private void OnDisable()
+    // {
+    //     if (playerInput != null)
+    //     {
+    //         GetAct("Pause").performed -= _ => TogglePause();
+    //     }
+    // }
     public string mainMenu = "MainMenu";
     public void Save()
     {
