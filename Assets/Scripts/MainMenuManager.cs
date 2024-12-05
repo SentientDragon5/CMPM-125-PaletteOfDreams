@@ -28,6 +28,7 @@ public class MainMenuManager : MonoBehaviour
     public UnityEngine.UI.Extensions.UITorus progressBar;
     void Awake()
     {
+        Cursor.lockState = CursorLockMode.Confined;
         foreach (var m in menus)
             m.enabled = false;
         menus[current_menu].enabled = true;
