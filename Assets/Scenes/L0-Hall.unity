@@ -38995,7 +38995,7 @@ PrefabInstance:
     - target: {fileID: 6316991167934901365, guid: de74b0a40b978374587ba531837f7817,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 49.829597
+      value: 49.82966
       objectReference: {fileID: 0}
     - target: {fileID: 7102172988664529572, guid: de74b0a40b978374587ba531837f7817,
         type: 3}
@@ -39097,6 +39097,11 @@ PrefabInstance:
       propertyPath: playerInput
       value: 
       objectReference: {fileID: 2079859804}
+    - target: {fileID: 8481013041192730123, guid: de74b0a40b978374587ba531837f7817,
+        type: 3}
+      propertyPath: characterController
+      value: 
+      objectReference: {fileID: 867032711}
     - target: {fileID: 8542448484826326193, guid: de74b0a40b978374587ba531837f7817,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -39115,6 +39120,12 @@ PrefabInstance:
 --- !u!95 &867032709 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 7364698227181023721, guid: de74b0a40b978374587ba531837f7817,
+    type: 3}
+  m_PrefabInstance: {fileID: 867032708}
+  m_PrefabAsset: {fileID: 0}
+--- !u!143 &867032711 stripped
+CharacterController:
+  m_CorrespondingSourceObject: {fileID: 8175951713667515461, guid: de74b0a40b978374587ba531837f7817,
     type: 3}
   m_PrefabInstance: {fileID: 867032708}
   m_PrefabAsset: {fileID: 0}

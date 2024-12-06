@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class PlayerCharacter : MonoBehaviour
 {
     public Animator Animator;
-    private CharacterController characterController;
+    public CharacterController characterController;
     public static bool hasKey = false;
 
     protected virtual void Awake()
@@ -245,7 +245,7 @@ public class PlayerCharacter : MonoBehaviour
         transform.Rotate(0, TurnAmount * turnSpeed * Time.deltaTime, 0);
     }
     public float sprintMultiplier = 1.5f;
-    /*private void OnAnimatorMove()
+    public void OnAnimatorMove()
     {
         if (inAir) return;
 
@@ -256,6 +256,10 @@ public class PlayerCharacter : MonoBehaviour
             move = Vector3.ProjectOnPlane(move, hit.normal);
             transform.position = hit.point;
         }
+        else 
+        {
+            velocity.y += Physics.gravity.y * Time.deltaTime;
+        }
         //move *= moveSpeed;
         move = (velocity + moveInput * moveSpeed) * (Sprinting ? sprintMultiplier : 1);
 
@@ -263,7 +267,7 @@ public class PlayerCharacter : MonoBehaviour
         move += velocity.y * Vector3.up;
         characterController.Move(move * Time.deltaTime);
 
-    }*/
+    }
 
     public void FootR() { }
     public void FootL() { }
