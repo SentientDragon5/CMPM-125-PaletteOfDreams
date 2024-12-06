@@ -10,6 +10,7 @@ public class MusicManager : MonoBehaviour
     public static MusicManager instance;
     private void Awake()
     {
+        musicSource = GetComponent<AudioSource>();
         if (instance == null)
         {
             instance = this;
@@ -23,7 +24,7 @@ public class MusicManager : MonoBehaviour
         }
     }
 
-    public AudioSource musicSource;
+    AudioSource musicSource;
 
     [Serializable]
     public struct AudioClipNamed
@@ -36,7 +37,8 @@ public class MusicManager : MonoBehaviour
     {
         if (musicSource.clip.name != musicName)
         {
-            musicSource.clip = audioClips.Find((clip)=> { return clip.name == musicName; }).clip;
+            musicSource.clip = audioClips.Find((clip) => { return clip.name == musicName; }).clip;
+            musicSource.Play();
         }
         else
         {
@@ -52,5 +54,5 @@ public class MusicManager : MonoBehaviour
     {
         return audioClips.Any((clip) => clip.name == musicName);
     }
-    
+
 }
